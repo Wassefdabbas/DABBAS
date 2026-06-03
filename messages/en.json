@@ -1,0 +1,178 @@
+{
+  "Brand": {
+    "wordmark": "DABBAS",
+    "tagline": "Atelier"
+  },
+  "Header": {
+    "menu": "Menu",
+    "close": "Close",
+    "cta": "Book an Appointment",
+    "nav": {
+      "atelier": "Atelier",
+      "collection": "Collection",
+      "about": "About",
+      "contact": "Contact"
+    }
+  },
+  "Footer": {
+    "atelier": {
+      "title": "The Atelier",
+      "story": "Our story",
+      "craft": "Our craft",
+      "journal": "Journal"
+    },
+    "collection": {
+      "title": "Collection",
+      "veils": "Veils",
+      "crowns": "Crowns",
+      "newArrivals": "New arrivals"
+    },
+    "visit": {
+      "title": "Visit",
+      "address": "Cairo, by appointment",
+      "email": "hello@dabbas-atelier.com",
+      "instagram": "Instagram"
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "blurb": "Quiet letters, twice a year.",
+      "placeholder": "Your email",
+      "submit": "Subscribe"
+    },
+    "copyright": "© {year} DABBAS Atelier. Made by hand.",
+    "credit": "Cairo · Est. 1976"
+  },
+  "Home": {
+    "hero": {
+      "line1": "WORN ONCE,",
+      "line2": "REMEMBERED",
+      "line3": "FOREVER",
+      "subcopy": "Made for a moment that becomes a memory.",
+      "viewCollection": "EXPLORE THE COLLECTION"
+    },
+    "intro": {
+      "headline": "Every veil is finished by a single pair of hands, from the first cut to the last knot."
+    },
+    "craft": {
+      "eyebrow": "Our Craft",
+      "headline": "Slow patience, hand by hand.",
+      "body": "Hand-set tulle, silk thread, the slow patience of an atelier that measures time in weddings, not in seasons."
+    },
+    "collection": {
+      "eyebrow": "The Collection",
+      "subheading": "Discover veils created for every kind of bridal story.",
+      "cards": {
+        "signature": "The house's defining work",
+        "romance": "Delicate lace, softly feminine",
+        "cathedral": "Dramatic length, timeless presence",
+        "bespoke": "Designed entirely around you"
+      }
+    },
+    "featured": {
+      "eyebrow": "Featured Veils",
+      "headline": "From the spring collection",
+      "cta": "See the full collection"
+    },
+    "heritage": {
+      "eyebrow": "The Atelier",
+      "headline": "Damascus, since 1966.",
+      "body": "Three generations of veil-making. A single craft passed quietly between mother and daughter, signed by the hand that finished it.",
+      "cta": "Read our story"
+    },
+    "stats": {
+      "headline": "Crafted in Damascus. Worn by the World.",
+      "para1": "For over sixty years, the DABBAS atelier has worked in silence — needle by needle, veil by veil. What began in Damascus as a family devotion to bridal craft has dressed brides across the world, each one carrying a piece of our hands on the most important day of her life.",
+      "para2": "Every veil leaves our atelier entirely by hand. No shortcuts. No machines. Only patience, thread, and a deep respect for the moment it will accompany.",
+      "para1Short": "Founded in Damascus in 1966. Three generations of handmade bridal veils, now carried to the world.",
+      "items": {
+        "years": { "value": "60+ Years", "label": "Of Bridal Mastery" },
+        "brides": { "value": "10,000+ Brides", "label": "Dressed With Care" },
+        "handmade": { "value": "100% Handmade", "label": "Every Single Stitch" }
+      }
+    },
+    "cta": {
+      "headline": "Be measured at the atelier.",
+      "subhead": "Private fittings, by appointment.",
+      "button": "Book an Appointment"
+    }
+  },
+  "Locale": {
+    "label": "Language",
+    "switchTo": "Switch language"
+  },
+  "NotFound": {
+    "eyebrow": "404",
+    "headline": "This thread leads nowhere.",
+    "body": "The page you were looking for isn't here. Return to the atelier.",
+    "cta": "Back to home"
+  },
+  "About": {
+    "eyebrow": "The Atelier",
+    "headline": "Crafted in Damascus. Worn by the World.",
+    "lead": "A family house. A single craft. A quiet inheritance.",
+    "sections": {
+      "firstCut": {
+        "title": "The First Cut",
+        "body": "It begins with a single yard of silk tulle on a wide table. A pair of scissors. A pencil mark made with a steady hand. Everything else follows from there."
+      },
+      "familyHouse": {
+        "title": "A Family House",
+        "body": "The DABBAS atelier was founded in Damascus in 1966 by a craftsman who believed a bride deserved something made entirely by hand. He passed the cutting table to his son, who carried the same belief forward. Today, the third generation continues the craft — honoring the heritage and authenticity of what came before, while opening a new chapter for the world."
+      },
+      "materials": {
+        "title": "Our Materials",
+        "body": "Silk tulle, hand-tatted lace, freshwater pearls, fine crystals, and the kind of slow patience a wedding deserves."
+      },
+      "signed": {
+        "title": "Signed by One Pair of Hands",
+        "body": "Every veil is made from the first cut to the last knot by a single maker. Their care is in every stitch — even the ones no one will ever see."
+      }
+    },
+    "cta": "Come to the atelier"
+  },
+  "Contact": {
+    "eyebrow": "Visit",
+    "headline": "Come to the atelier.",
+    "lead": "We work by appointment. The atelier sits quietly in Cairo — come for a measurement, or simply for tea.",
+    "whatsapp": {
+      "label": "WhatsApp",
+      "blurb": "The fastest way to reach the atelier.",
+      "cta": "Message us",
+      "prefilledMessage": "Hello DABBAS — I would like to book a fitting."
+    },
+    "email": {
+      "label": "Email",
+      "blurb": "Write to us about a fitting, a custom piece, or a question.",
+      "cta": "Write to us",
+      "prefilledSubject": "Atelier appointment"
+    },
+    "visit": {
+      "label": "Where",
+      "addressLabel": "Atelier",
+      "hoursLabel": "Hours",
+      "hours": "Tuesday — Saturday, by appointment",
+      "instagramLabel": "On Instagram"
+    }
+  },
+  "Collection": {
+    "index": {
+      "eyebrow": "The Collection",
+      "headline": "Veils, by hand.",
+      "blurb": "Six pieces. Each finished in the Cairo atelier by a single pair of hands.",
+      "filter": "Filter",
+      "filterBy": "Refine by category",
+      "all": "All veils",
+      "close": "Close",
+      "empty": "No veils in this category yet."
+    },
+    "detail": {
+      "details": "Details",
+      "completeYourLook": "Complete your look",
+      "youMayAlsoLike": "You may also like",
+      "back": "Back to the collection",
+      "viewImage": "View image {n}",
+      "bookCta": "Book an Appointment",
+      "bookSubhead": "Be measured at the atelier. Private fittings, by appointment."
+    }
+  }
+}
