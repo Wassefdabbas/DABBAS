@@ -27,7 +27,6 @@ export default async function OG({
   // Brand tokens (must be literal hex here — Satori doesn't parse CSS vars)
   const porcelain = "#FDFCFA";
   const ink = "#1C1A17";
-  const muted = "#8A8378";
   const gold = "#B79257";
 
   return new ImageResponse(
@@ -47,19 +46,6 @@ export default async function OG({
       >
         {/* Top hairline */}
         <div style={{ width: 96, height: 1, background: gold, marginBottom: 56 }} />
-
-        {/* Small-caps eyebrow */}
-        <div
-          style={{
-            color: muted,
-            textTransform: "uppercase",
-            letterSpacing: "0.3em",
-            fontSize: 22,
-            marginBottom: 32,
-          }}
-        >
-          {isRtl ? "دبّاس أتيلييه" : "DABBAS Atelier"}
-        </div>
 
         {/* Wordmark */}
         <div
