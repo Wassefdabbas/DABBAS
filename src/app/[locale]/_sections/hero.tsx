@@ -59,7 +59,7 @@ export function Hero({ media: _media }: { media: Media }) {
           <div className="relative h-full w-full">
             <Image
               src="/hero/Herosection.png"
-              alt="DABBAS Atelier — bride in handmade veil"
+              alt="DABBAS — bride in handmade veil"
               fill
               priority
               quality={90}

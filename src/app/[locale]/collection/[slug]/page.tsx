@@ -35,9 +35,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const veil = await getVeil(slug);
-  if (!veil) return { title: "DABBAS Atelier" };
+  if (!veil) return { title: "DABBAS" };
   return {
-    title: `${pickL(veil.name, locale)} — DABBAS Atelier`,
+    title: `${pickL(veil.name, locale)} — DABBAS`,
     description: pickL(veil.description, locale),
   };
 }

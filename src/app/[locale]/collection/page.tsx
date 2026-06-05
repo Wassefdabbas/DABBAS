@@ -7,7 +7,7 @@ import type { Locale } from "@/i18n/routing";
 import { CollectionGrid } from "./collection-grid";
 
 export const metadata: Metadata = {
-  title: "Collection — DABBAS Atelier",
+  title: "Collection — DABBAS",
 };
 
 export default async function CollectionIndex({

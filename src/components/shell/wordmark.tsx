@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 export function Wordmark({
   className,
   href = "/",
-  ariaLabel = "DABBAS Atelier — home",
+  ariaLabel = "DABBAS — home",
 }: {
   className?: string;
   href?: "/" | "/about" | "/collection" | "/contact";

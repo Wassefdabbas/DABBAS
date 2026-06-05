@@ -9,7 +9,7 @@ const bodySans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Admin — DABBAS Atelier",
+  title: "Admin — DABBAS",
   robots: { index: false, follow: false },
 };
 

@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Contact" });
   return {
-    title: `${t("headline")} — DABBAS Atelier`,
+    title: `${t("headline")} — DABBAS`,
     description: t("lead"),
   };
 }

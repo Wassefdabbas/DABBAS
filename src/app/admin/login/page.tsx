@@ -9,7 +9,7 @@ export default async function LoginPage() {
   return (
     <main className="flex min-h-screen items-center justify-center px-6">
       <div className="w-full max-w-sm">
-        <p className="small-caps mb-3 text-center">DABBAS Atelier</p>
+        <p className="small-caps mb-3 text-center">DABBAS</p>
         <h1 className="mb-10 text-center text-2xl text-ink">Admin</h1>
 
         {configured ? (
