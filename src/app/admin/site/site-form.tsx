@@ -197,10 +197,10 @@ export function SiteForm({ initial }: { initial: SiteContent }) {
                 })
               }
               className="w-full border border-ink/15 bg-porcelain px-3 py-2 text-ink focus:border-gold focus:outline-none"
-              placeholder="201234567890"
+              placeholder="963900000000"
             />
             <span className="mt-1 block text-xs text-muted">
-              Digits only, country code first (no plus). e.g. 201234567890.
+              Digits only, country code first (no plus). e.g. 963900000000.
             </span>
           </label>
           <label className="block">
@@ -217,7 +217,7 @@ export function SiteForm({ initial }: { initial: SiteContent }) {
                 })
               }
               className="w-full border border-ink/15 bg-porcelain px-3 py-2 text-ink focus:border-gold focus:outline-none"
-              placeholder="+20 123 456 7890"
+              placeholder="+963 9XX XXX XXX"
             />
             <span className="mt-1 block text-xs text-muted">
               Human-readable. Shown on the contact page.

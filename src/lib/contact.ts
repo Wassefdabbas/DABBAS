@@ -10,15 +10,16 @@
 export const contactDefaults = {
   email: "hello@dabbas-atelier.com",
   whatsapp: {
-    /** International format, digits only, no '+'. e.g. "201234567890" */
-    number: "201234567890",
+    /** International format, digits only, no '+'. Syria is 963. PLACEHOLDER —
+     * set the real number in /admin/site. */
+    number: "963900000000",
     /** Human-readable for display. */
-    display: "+20 123 456 7890",
+    display: "+963 9XX XXX XXX",
   },
   instagram: "https://instagram.com/dabbas.atelier",
   address: {
-    en: "Cairo, Egypt — by appointment only",
-    ar: "القاهرة، مصر — بموعد مسبق فقط",
+    en: "Damascus, Syria — by appointment only",
+    ar: "دمشق، سوريا — بموعد مسبق فقط",
   },
 } as const;
 
