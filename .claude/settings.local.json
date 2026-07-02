@@ -115,7 +115,9 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 30 http://localhost:3000/ar/contact)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 60 http://localhost:3000/en/contact)",
       "Bash(curl *)",
-      "PowerShell($en = Invoke-WebRequest -Uri \"http://localhost:3000/en/contact\" -UseBasicParsing -TimeoutSec 15 | Select-Object -ExpandProperty StatusCode; $ar = Invoke-WebRequest -Uri \"http://localhost:3000/ar/contact\" -UseBasicParsing -TimeoutSec 15 | Select-Object -ExpandProperty StatusCode; \"EN: $en  AR: $ar\")"
+      "PowerShell($en = Invoke-WebRequest -Uri \"http://localhost:3000/en/contact\" -UseBasicParsing -TimeoutSec 15 | Select-Object -ExpandProperty StatusCode; $ar = Invoke-WebRequest -Uri \"http://localhost:3000/ar/contact\" -UseBasicParsing -TimeoutSec 15 | Select-Object -ExpandProperty StatusCode; \"EN: $en  AR: $ar\")",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000/en/collection/ivory-cathedral\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode; Invoke-WebRequest -Uri \"http://localhost:3000/ar/collection/ivory-cathedral\" -UseBasicParsing -TimeoutSec 15 | Select-Object StatusCode)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000/en/collection/ivory-cathedral\" -UseBasicParsing -TimeoutSec 20 | Select-Object StatusCode)"
     ],
     "additionalDirectories": [
       "c:\\Users\\MSI\\Desktop\\dabbas-atelier\\src\\app\\[locale]\\_sections"

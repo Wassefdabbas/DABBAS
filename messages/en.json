@@ -161,6 +161,7 @@
       "optional": "(optional)",
       "submit": "Request appointment",
       "submitting": "Sending…",
+      "waMessage": "Hello, this is {name}. I just submitted a fitting request on the website — looking forward to hearing back.",
       "success": {
         "eyebrow": "Received",
         "headline": "Thank you. The atelier will be in touch.",
@@ -229,7 +230,10 @@
       "back": "Back to the collection",
       "viewImage": "View image {n}",
       "bookCta": "Book an Appointment",
-      "bookSubhead": "Be measured at the atelier. Private fittings, by appointment."
+      "bookSubhead": "Be measured at the atelier. Private fittings, by appointment.",
+      "enquireCta": "Enquire About This Veil",
+      "enquireSubhead": "Message us directly on WhatsApp about this piece.",
+      "enquireWaMessage": "Hello, I'm interested in {name} — {url}. Could you tell me more?"
     }
   }
 }

@@ -7,7 +7,6 @@ import {
 } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Accordion } from "@/components/accordion";
-import { MagneticButton } from "@/components/motion";
 import {
   getVeil,
   getCompleteYourLook,
@@ -18,6 +17,7 @@ import {
 import { routing, type Locale } from "@/i18n/routing";
 import { DetailGallery } from "./_components/detail-gallery";
 import { RelatedRow } from "./_components/related-row";
+import { VeilEnquireButton } from "./_components/veil-enquire-button";
 
 /* Static generation — every locale × slug combination.
    getAllSlugs() is async because Phase 7 it may read from Mongo. */
@@ -126,25 +126,11 @@ export default async function VeilDetail({
               <Accordion items={accordionItems} />
             </div>
 
-            {/* Inline CTA */}
+            {/* Inline CTA — opens WhatsApp directly with veil name + URL */}
             <div className="mt-12">
-              <Link href="/contact" className="focus:outline-none">
-                <MagneticButton
-                  type="button"
-                  className="bg-ink px-8 py-4 text-porcelain transition-colors duration-300 hover:bg-gold-deep"
-                  strength={0.3}
-                  labelStrength={0.25}
-                >
-                  <span className="small-caps !text-current">
-                    {t("bookCta")}
-                  </span>
-                  <span aria-hidden className="rtl:rotate-180">
-                    &rarr;
-                  </span>
-                </MagneticButton>
-              </Link>
+              <VeilEnquireButton veilName={pickL(veil.name, activeLocale)} />
               <p className="mt-4 max-w-sm text-sm text-muted">
-                {t("bookSubhead")}
+                {t("enquireSubhead")}
               </p>
             </div>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/cn";
 import { CONTACT_METHODS, type ContactMethod } from "@/lib/appointment-shared";
@@ -32,6 +32,18 @@ export function AppointmentForm({
     AppointmentFormState,
     FormData
   >(submitAppointmentAction, {});
+
+  // Flow 1: open WhatsApp immediately after a successful dashboard save so the
+  // bride can send a quick notification to the atelier directly.
+  useEffect(() => {
+    if (!state.ok || !state.name) return;
+    const msg = t("waMessage", { name: state.name });
+    window.open(
+      `https://wa.me/963934067735?text=${encodeURIComponent(msg)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+  }, [state.ok, state.name, t]);
 
   if (state.ok) {
     return (

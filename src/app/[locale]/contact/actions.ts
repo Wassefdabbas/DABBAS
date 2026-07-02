@@ -17,6 +17,9 @@ import {
  */
 export type AppointmentFormState = {
   ok?: boolean;
+  /** Submitter's name — returned on success so the form can personalise the
+   * WhatsApp follow-up message without an extra client-side read. */
+  name?: string;
   error?: string;
   unreachable?: boolean;
 };
@@ -78,5 +81,5 @@ export async function submitAppointmentAction(
   }
 
   revalidatePath("/admin/appointments", "page");
-  return { ok: true };
+  return { ok: true, name };
 }
