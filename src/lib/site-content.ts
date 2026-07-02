@@ -33,7 +33,7 @@ export type Media = MediaImage | MediaVideo | null;
 /** Editable atelier contact details (overrides src/lib/contact.ts defaults). */
 export type ContactInfo = {
   email: string;
-  whatsappNumber: string;   // digits only, no '+', e.g. "963934067735"
+  whatsappNumber: string;   // digits only, no '+',
   whatsappDisplay: string;  // human format, e.g. "+963 9XX XXX XXX"
   instagram: string;        // full URL
 };
