@@ -14,12 +14,13 @@ import {
  * `ok` drives the confirmation swap; `unreachable` distinguishes a storage
  * failure (Mongo down) so the form can nudge toward WhatsApp/email instead
  * of implying the bride did something wrong.
+ * `waText` is the fully-built WhatsApp message (all appointment details,
+ * locale-aware) returned on success so the client can open wa.me directly.
  */
 export type AppointmentFormState = {
   ok?: boolean;
-  /** Submitter's name — returned on success so the form can personalise the
-   * WhatsApp follow-up message without an extra client-side read. */
-  name?: string;
+  /** Complete pre-built WhatsApp message, returned on success only. */
+  waText?: string;
   error?: string;
   unreachable?: boolean;
 };
@@ -28,6 +29,54 @@ const LIMITS = { name: 120, contactValue: 200, message: 2000 } as const;
 
 function isContactMethod(v: string): v is ContactMethod {
   return (CONTACT_METHODS as string[]).includes(v);
+}
+
+const METHOD_LABEL: Record<ContactMethod, { en: string; ar: string }> = {
+  whatsapp: { en: "WhatsApp",        ar: "واتساب" },
+  phone:    { en: "Phone",           ar: "هاتف" },
+  email:    { en: "Email",           ar: "بريد إلكتروني" },
+};
+
+function buildWaMessage(opts: {
+  locale: Locale;
+  name: string;
+  contactMethod: ContactMethod;
+  contactValue: string;
+  preferredDate: string;
+  message: string;
+}): string {
+  const { locale, name, contactMethod, contactValue, preferredDate, message } = opts;
+  const ar = locale === "ar";
+  const methodLabel = ar
+    ? METHOD_LABEL[contactMethod].ar
+    : METHOD_LABEL[contactMethod].en;
+
+  const lines: string[] = ar
+    ? [
+        `مرحبًا، أنا ${name}.`,
+        "",
+        "لقد أرسلت طلب موعد قياس عبر موقع دار دبّاس.",
+        "",
+        `التواصل عبر ${methodLabel}: ${contactValue}`,
+      ]
+    : [
+        `Hello, this is ${name}.`,
+        "",
+        "I just submitted a fitting request on the DABBAS Atelier website.",
+        "",
+        `Contact via ${methodLabel}: ${contactValue}`,
+      ];
+
+  if (preferredDate) {
+    lines.push(ar ? `التاريخ المفضّل: ${preferredDate}` : `Preferred date: ${preferredDate}`);
+  }
+  if (message) {
+    lines.push(ar ? `ملاحظة: ${message}` : `Note: ${message}`);
+  }
+
+  lines.push("", ar ? "أتطلّع إلى ردّكم." : "Looking forward to hearing back.");
+
+  return lines.join("\n");
 }
 
 /**
@@ -81,5 +130,7 @@ export async function submitAppointmentAction(
   }
 
   revalidatePath("/admin/appointments", "page");
-  return { ok: true, name };
+
+  const waText = buildWaMessage({ locale, name, contactMethod, contactValue, preferredDate, message });
+  return { ok: true, waText };
 }

@@ -161,7 +161,6 @@
       "optional": "(optional)",
       "submit": "Request appointment",
       "submitting": "Sending…",
-      "waMessage": "Hello, this is {name}. I just submitted a fitting request on the website — looking forward to hearing back.",
       "success": {
         "eyebrow": "Received",
         "headline": "Thank you. The atelier will be in touch.",

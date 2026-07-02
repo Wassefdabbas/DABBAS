@@ -2,8 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { MagneticButton } from "@/components/motion";
-
-const WA_NUMBER = "963934067735";
+import { whatsappUrl } from "@/lib/contact";
 
 /**
  * Flow 2 — veil detail page CTA.
@@ -14,13 +13,8 @@ export function VeilEnquireButton({ veilName }: { veilName: string }) {
   const t = useTranslations("Collection.detail");
 
   const handleClick = () => {
-    const url = window.location.href;
-    const msg = t("enquireWaMessage", { name: veilName, url });
-    window.open(
-      `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,
-      "_blank",
-      "noopener,noreferrer",
-    );
+    const msg = t("enquireWaMessage", { name: veilName, url: window.location.href });
+    window.open(whatsappUrl(msg), "_blank", "noopener,noreferrer");
   };
 
   return (
