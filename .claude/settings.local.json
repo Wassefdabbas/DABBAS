@@ -102,7 +102,20 @@
       "Bash(curl -s -o /dev/null -w \"contact=%{http_code}\\\\n\" http://localhost:3000/en/contact)",
       "Bash(curl -s -o /dev/null -w \"contact_en=%{http_code}\\\\n\" http://localhost:3000/en/contact)",
       "Bash(curl -s -o /dev/null -w \"contact_ar=%{http_code}\\\\n\" http://localhost:3000/ar/contact)",
-      "Bash(curl -s -o /dev/null -w \"admin=%{http_code}\\\\n\" http://localhost:3000/admin/appointments)"
+      "Bash(curl -s -o /dev/null -w \"admin=%{http_code}\\\\n\" http://localhost:3000/admin/appointments)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000/en/contact\" -UseBasicParsing -TimeoutSec 10 | Select-Object -ExpandProperty StatusCode)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000/ar/contact\" -UseBasicParsing -TimeoutSec 10 | Select-Object -ExpandProperty StatusCode)",
+      "PowerShell(taskkill *)",
+      "PowerShell(Start-Sleep -Seconds 5; Invoke-WebRequest -Uri \"http://localhost:3000/en/contact\" -UseBasicParsing -TimeoutSec 30 | Select-Object -ExpandProperty StatusCode)",
+      "PowerShell(netstat *)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000/en/contact\" -UseBasicParsing -TimeoutSec 60 | Select-Object StatusCode, @{N='Size';E={$_.Content.Length}})",
+      "PowerShell(Start-Sleep -Seconds 15; Invoke-WebRequest -Uri \"http://localhost:3000/en/contact\" -UseBasicParsing -TimeoutSec 10 | Select-Object StatusCode, @{N='Size';E={$_.Content.Length}})",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 5 http://localhost:3000/en/contact)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 30 http://localhost:3000/en/contact)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 30 http://localhost:3000/ar/contact)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 60 http://localhost:3000/en/contact)",
+      "Bash(curl *)",
+      "PowerShell($en = Invoke-WebRequest -Uri \"http://localhost:3000/en/contact\" -UseBasicParsing -TimeoutSec 15 | Select-Object -ExpandProperty StatusCode; $ar = Invoke-WebRequest -Uri \"http://localhost:3000/ar/contact\" -UseBasicParsing -TimeoutSec 15 | Select-Object -ExpandProperty StatusCode; \"EN: $en  AR: $ar\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\MSI\\Desktop\\dabbas-atelier\\src\\app\\[locale]\\_sections"

@@ -20,6 +20,15 @@
   --gold-soft: #D9C39A;
   --gold-deep: #8C6A38;
 
+  /* Contact page section background tones (2–4% tonal steps, same warm family) */
+  --section-bg-1: #FAF8F4;   /* hero — warmed porcelain */
+  --section-bg-2: #F7F3ED;   /* form — ivory step */
+  --section-bg-3: #F3EFE8;   /* direct channels — pale stone */
+  --section-bg-4: #EEF0EA;   /* visit / sage endpoint */
+
+  /* Warm espresso — primary CTA surface (passes WCAG AA against white) */
+  --espresso: #3D342C;
+
   /* Motion easings */
   --ease-out-expo:  cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
@@ -48,6 +57,7 @@
   --color-gold:      var(--gold);
   --color-gold-soft: var(--gold-soft);
   --color-gold-deep: var(--gold-deep);
+  --color-espresso:  var(--espresso);
 
   --font-display:         var(--font-display);
   --font-sans:            var(--font-sans);
@@ -173,6 +183,28 @@ html[lang="ar"] .small-caps {
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
+}
+
+/* ============================================================
+   Contact page — animated gold underline on field focus
+   Pure CSS: scaleX 0→1 from centre. No JS needed.
+   ============================================================ */
+.field-line {
+  position: relative;
+}
+.field-line::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-inline-end: 50%;
+  bottom: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: inset-inline-start 250ms ease-out, inset-inline-end 250ms ease-out;
+}
+.field-line:focus-within::after {
+  inset-inline-start: 0;
+  inset-inline-end: 0;
 }
 
 /* ============================================================

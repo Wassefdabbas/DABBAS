@@ -56,7 +56,7 @@ export function AppointmentForm({
       <input type="hidden" name="locale" value={locale} />
 
       {/* Name */}
-      <label className="block">
+      <label className="field-line block">
         <span className="small-caps mb-3 block !text-muted">
           {t("fields.name")}
         </span>
@@ -66,7 +66,7 @@ export function AppointmentForm({
           required
           maxLength={120}
           autoComplete="name"
-          className="w-full border-b border-ink/20 bg-transparent py-3 text-ink transition-colors placeholder:text-muted focus:border-gold focus:outline-none"
+          className="w-full border-b border-ink/20 bg-transparent py-3 text-ink placeholder:text-muted focus:outline-none"
           placeholder={t("placeholders.name")}
         />
       </label>
@@ -104,7 +104,7 @@ export function AppointmentForm({
       </fieldset>
 
       {/* Contact value — label + type follow the chosen method */}
-      <label className="block">
+      <label className="field-line block">
         <span className="small-caps mb-3 block !text-muted">
           {t(`valueLabel.${method}`)}
         </span>
@@ -114,13 +114,13 @@ export function AppointmentForm({
           required
           maxLength={200}
           inputMode={method === "email" ? "email" : "tel"}
-          className="w-full border-b border-ink/20 bg-transparent py-3 text-ink transition-colors placeholder:text-muted focus:border-gold focus:outline-none"
+          className="w-full border-b border-ink/20 bg-transparent py-3 text-ink placeholder:text-muted focus:outline-none"
           placeholder={t(`placeholders.${method}`)}
         />
       </label>
 
       {/* Preferred date — optional */}
-      <label className="block">
+      <label className="field-line block">
         <span className="small-caps mb-3 block !text-muted">
           {t("fields.date")}{" "}
           <span className="text-muted/70 normal-case tracking-normal">
@@ -130,12 +130,12 @@ export function AppointmentForm({
         <input
           type="date"
           name="preferredDate"
-          className="w-full border-b border-ink/20 bg-transparent py-3 text-ink transition-colors focus:border-gold focus:outline-none"
+          className="w-full border-b border-ink/20 bg-transparent py-3 text-ink focus:outline-none"
         />
       </label>
 
       {/* Message — optional */}
-      <label className="block">
+      <label className="field-line block">
         <span className="small-caps mb-3 block !text-muted">
           {t("fields.message")}{" "}
           <span className="text-muted/70 normal-case tracking-normal">
@@ -146,7 +146,7 @@ export function AppointmentForm({
           name="message"
           rows={4}
           maxLength={2000}
-          className="w-full resize-none border-b border-ink/20 bg-transparent py-3 text-ink transition-colors placeholder:text-muted focus:border-gold focus:outline-none"
+          className="w-full resize-none border-b border-ink/20 bg-transparent py-3 text-ink placeholder:text-muted focus:outline-none"
           placeholder={t("placeholders.message")}
         />
       </label>
@@ -174,7 +174,8 @@ export function AppointmentForm({
         <button
           type="submit"
           disabled={pending}
-          className="group inline-flex items-center gap-3 bg-ink px-10 py-5 transition-colors duration-300 ease-[var(--ease-out-expo)] hover:bg-gold-deep disabled:opacity-50"
+          data-submit-btn
+          className="group inline-flex items-center gap-3 bg-espresso px-10 py-5 transition-colors duration-300 ease-[var(--ease-out-expo)] hover:bg-gold-deep disabled:opacity-50"
         >
           <span className="small-caps !text-porcelain">
             {pending ? t("submitting") : t("submit")}

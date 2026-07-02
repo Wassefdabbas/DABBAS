@@ -5,6 +5,7 @@ import { resolveContact, emailUrl, whatsappUrl } from "@/lib/contact";
 import { getSiteContent } from "@/lib/site-content";
 import type { Locale } from "@/i18n/routing";
 import { AppointmentForm } from "./appointment-form";
+import { ContactScrollEffects } from "./contact-scroll-effects";
 
 export async function generateMetadata({
   params,
@@ -22,8 +23,7 @@ export async function generateMetadata({
 
 /* ── Inline icons (no emoji per brand) ───────────────────────── */
 
-function WhatsAppIcon({ className }: { className?: string }) {
-  // Quiet speech-bubble glyph in currentColor. Stroke-only for editorial feel.
+function WhatsAppIcon({ className, ...rest }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -34,13 +34,14 @@ function WhatsAppIcon({ className }: { className?: string }) {
       strokeLinejoin="round"
       aria-hidden
       className={className}
+      {...rest}
     >
       <path d="M21 11.5a8.38 8.38 0 0 1-12.38 7.33L3 21l2.17-5.62A8.5 8.5 0 1 1 21 11.5Z" />
     </svg>
   );
 }
 
-function EnvelopeIcon({ className }: { className?: string }) {
+function EnvelopeIcon({ className, ...rest }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -51,6 +52,7 @@ function EnvelopeIcon({ className }: { className?: string }) {
       strokeLinejoin="round"
       aria-hidden
       className={className}
+      {...rest}
     >
       <rect x="3" y="5" width="18" height="14" rx="1" />
       <path d="m3 7 9 7 9-7" />
@@ -78,7 +80,10 @@ export default async function ContactPage({
   return (
     <main className="bg-porcelain">
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <header className="px-6 pt-40 pb-20 sm:px-12 lg:px-24">
+      <header
+        id="contact-hero"
+        className="px-6 pt-40 pb-20 sm:px-12 lg:px-24"
+      >
         <div className="mx-auto max-w-5xl">
           <p className="small-caps mb-6">{t("eyebrow")}</p>
           <RevealText
@@ -92,15 +97,18 @@ export default async function ContactPage({
             className="mt-10 max-w-xl text-lg leading-relaxed text-graphite"
             staggerChildren={0.04}
           />
-          <div className="hairline mt-16 w-24" />
+          <div data-divider className="hairline mt-16 w-24" />
         </div>
       </header>
 
       {/* ── Appointment form — the primary path ──────────────── */}
-      <section className="px-6 pb-28 sm:px-12 lg:px-24">
+      <section id="contact-form" className="px-6 pb-28 sm:px-12 lg:px-24">
         <div className="mx-auto max-w-2xl">
-          <p className="small-caps mb-3">{t("form.eyebrow")}</p>
-          <h2 className="mb-10 font-[family-name:var(--font-display)] text-[clamp(1.75rem,3.4vw,2.5rem)] leading-[1.1] text-ink">
+          <p data-eyebrow className="small-caps mb-3">{t("form.eyebrow")}</p>
+          <h2
+            data-headline
+            className="mb-10 font-[family-name:var(--font-display)] text-[clamp(1.75rem,3.4vw,2.5rem)] leading-[1.1] text-ink"
+          >
             {t("form.headline")}
           </h2>
           <AppointmentForm directHref={waHref} />
@@ -108,10 +116,10 @@ export default async function ContactPage({
       </section>
 
       {/* ── Direct channels — the secondary path ─────────────── */}
-      <section className="px-6 pb-32 sm:px-12 lg:px-24">
+      <section id="contact-direct" className="px-6 pb-32 sm:px-12 lg:px-24">
         <div className="mx-auto mb-10 max-w-5xl">
-          <div className="hairline mb-10 w-24" />
-          <p className="small-caps mb-3">{t("directLabel")}</p>
+          <div data-divider className="hairline mb-10 w-24" />
+          <p data-eyebrow className="small-caps mb-3">{t("directLabel")}</p>
           <p className="max-w-md text-graphite">{t("directBlurb")}</p>
         </div>
         <div className="mx-auto grid max-w-5xl gap-px bg-mist sm:grid-cols-2">
@@ -123,7 +131,10 @@ export default async function ContactPage({
             aria-label={`${t("whatsapp.label")} — ${t("whatsapp.cta")}`}
             className="group flex flex-col gap-8 bg-porcelain p-10 transition-colors duration-500 hover:bg-pearl sm:p-14"
           >
-            <WhatsAppIcon className="h-8 w-8 text-gold-deep transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110" />
+            <WhatsAppIcon
+              data-draw-icon
+              className="h-8 w-8 text-gold-deep transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110"
+            />
             <div>
               <p className="small-caps">{t("whatsapp.label")}</p>
               <p className="mt-4 font-[family-name:var(--font-display)] text-[clamp(1.75rem,3vw,2.25rem)] leading-[1.15] text-ink">
@@ -131,7 +142,7 @@ export default async function ContactPage({
               </p>
               <p className="mt-3 text-graphite">{t("whatsapp.blurb")}</p>
             </div>
-            <div className="mt-auto inline-flex items-center gap-3 border-b border-gold pb-1 text-ink transition-colors group-hover:text-gold-deep self-start">
+            <div className="mt-auto self-start inline-flex items-center gap-3 border-b border-gold pb-1 text-ink transition-colors group-hover:text-gold-deep">
               <span className="small-caps !text-current">
                 {t("whatsapp.cta")}
               </span>
@@ -147,7 +158,10 @@ export default async function ContactPage({
             aria-label={`${t("email.label")} — ${t("email.cta")}`}
             className="group flex flex-col gap-8 bg-porcelain p-10 transition-colors duration-500 hover:bg-pearl sm:p-14"
           >
-            <EnvelopeIcon className="h-8 w-8 text-gold-deep transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110" />
+            <EnvelopeIcon
+              data-draw-icon
+              className="h-8 w-8 text-gold-deep transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110"
+            />
             <div>
               <p className="small-caps">{t("email.label")}</p>
               <p className="mt-4 break-all font-[family-name:var(--font-display)] text-[clamp(1.5rem,2.6vw,2rem)] leading-[1.15] text-ink">
@@ -155,7 +169,7 @@ export default async function ContactPage({
               </p>
               <p className="mt-3 text-graphite">{t("email.blurb")}</p>
             </div>
-            <div className="mt-auto inline-flex items-center gap-3 border-b border-gold pb-1 text-ink transition-colors group-hover:text-gold-deep self-start">
+            <div className="mt-auto self-start inline-flex items-center gap-3 border-b border-gold pb-1 text-ink transition-colors group-hover:text-gold-deep">
               <span className="small-caps !text-current">
                 {t("email.cta")}
               </span>
@@ -168,9 +182,9 @@ export default async function ContactPage({
       </section>
 
       {/* ── Visit info ───────────────────────────────────────── */}
-      <section className="bg-pearl px-6 py-24 sm:px-12 lg:px-24">
+      <section id="contact-visit" className="px-6 py-24 sm:px-12 lg:px-24">
         <div className="mx-auto max-w-5xl">
-          <p className="small-caps mb-10">{t("visit.label")}</p>
+          <p data-eyebrow className="small-caps mb-10">{t("visit.label")}</p>
           <div className="grid gap-12 sm:grid-cols-3">
             <div>
               <p className="small-caps mb-3 !text-muted">
@@ -200,6 +214,8 @@ export default async function ContactPage({
           </div>
         </div>
       </section>
+
+      <ContactScrollEffects />
     </main>
   );
 }
