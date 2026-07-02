@@ -217,7 +217,7 @@ export function SiteForm({ initial }: { initial: SiteContent }) {
                 })
               }
               className="w-full border border-ink/15 bg-porcelain px-3 py-2 text-ink focus:border-gold focus:outline-none"
-              placeholder="+963 9XX XXX XXX"
+              placeholder="+963 934 067 735"
             />
             <span className="mt-1 block text-xs text-muted">
               Human-readable. Shown on the contact page.

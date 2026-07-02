@@ -14,7 +14,7 @@ export const contactDefaults = {
      * set the real number in /admin/site. */
     number: "963900000000",
     /** Human-readable for display. */
-    display: "+963 9XX XXX XXX",
+    display: "+963 934 067 735",
   },
   instagram: "https://instagram.com/dabbas.atelier",
   address: {
