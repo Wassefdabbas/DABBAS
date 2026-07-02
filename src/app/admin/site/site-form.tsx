@@ -197,10 +197,10 @@ export function SiteForm({ initial }: { initial: SiteContent }) {
                 })
               }
               className="w-full border border-ink/15 bg-porcelain px-3 py-2 text-ink focus:border-gold focus:outline-none"
-              placeholder="963900000000"
+              placeholder="963934067735"
             />
             <span className="mt-1 block text-xs text-muted">
-              Digits only, country code first (no plus). e.g. 963900000000.
+              Digits only, country code first (no plus). e.g. 963934067735.
             </span>
           </label>
           <label className="block">

@@ -12,7 +12,7 @@ export const contactDefaults = {
   whatsapp: {
     /** International format, digits only, no '+'. Syria is 963. PLACEHOLDER —
      * set the real number in /admin/site. */
-    number: "963900000000",
+    number: "963934067735",
     /** Human-readable for display. */
     display: "+963 934 067 735",
   },
