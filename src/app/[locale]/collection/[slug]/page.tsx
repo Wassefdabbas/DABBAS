@@ -90,9 +90,8 @@ export default async function VeilDetail({
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
           {/* Gallery */}
           {(() => {
-            const galleryImages = veil.gallery.length
-              ? veil.gallery
-              : [veil.cover];
+            // Show every image: the cover (image 1) first, then the rest.
+            const galleryImages = [veil.cover, ...veil.gallery].filter(Boolean);
             const thumbLabels = galleryImages.map((_, i) =>
               t("viewImage", { n: i + 1 }),
             );

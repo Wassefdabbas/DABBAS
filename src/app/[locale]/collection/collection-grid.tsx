@@ -16,6 +16,8 @@ export type GridItem = {
   name: string;
   lineLabel: string;
   cover: BrandImageData;
+  /** Next image revealed on hover — the veil's second image; null = no swap. */
+  hover: BrandImageData | null;
   categorySlug: string | null;
 };
 
@@ -162,11 +164,30 @@ export function CollectionGrid({
                   className="group block focus:outline-none"
                 >
                   <div className="relative aspect-[3/4] overflow-hidden bg-mist">
-                    <BrandImage
-                      image={veil.cover}
-                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 44vw, 45vw"
-                      className="transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
-                    />
+                    {/* Cover — fades out on hover when a second image exists */}
+                    <div
+                      className={
+                        veil.hover
+                          ? "absolute inset-0 transition-opacity duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-0"
+                          : "absolute inset-0"
+                      }
+                    >
+                      <BrandImage
+                        image={veil.cover}
+                        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 44vw, 45vw"
+                        className="transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
+                      />
+                    </div>
+                    {/* Second image — fades in on hover */}
+                    {veil.hover && (
+                      <div className="absolute inset-0 opacity-0 transition-opacity duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-100">
+                        <BrandImage
+                          image={veil.hover}
+                          sizes="(min-width: 1024px) 30vw, (min-width: 640px) 44vw, 45vw"
+                          className="transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
+                        />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/30" />
                     {/* Caption lifts in on hover */}
                     <div className="absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-ink/70 to-transparent px-5 py-5 opacity-0 transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0 group-hover:opacity-100">

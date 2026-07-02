@@ -37,6 +37,8 @@ export default async function CollectionIndex({
     name: pickL(veil.name, activeLocale),
     lineLabel: pickL(veil.lineLabel, activeLocale),
     cover: veil.cover,
+    // The "next image" shown on hover — the veil's second image, if any.
+    hover: veil.gallery?.[0] ?? null,
     categorySlug: veil.categorySlug ?? null,
   }));
 
