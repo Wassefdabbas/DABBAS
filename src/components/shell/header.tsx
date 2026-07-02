@@ -42,8 +42,11 @@ const useIsoLayoutEffect =
 /**
  * Site header — fixed, full width.
  *
- * Layout (desktop): ATELIER · COLLECTION  |  DABBAS (dead-centre on the page)
- *                   |  ABOUT · CONTACT · BOOK AN APPOINTMENT · EN / AR
+ * Layout (desktop ≥1024px): ATELIER · COLLECTION | DABBAS (dead-centre)
+ *                           | CONTACT · BOOK AN APPOINTMENT · EN / AR
+ * Below 1024px: hamburger (full-screen overlay nav, which carries the CTA)
+ * + wordmark + EN/AR. The overlay covers tablets too — the centred wordmark
+ * leaves no room for both nav wings between 768–1023px.
  *
  * Colour behaviour: over the hero the header floats transparent with LIGHT
  * (porcelain) text; once the hero has nearly scrolled past — or immediately on
@@ -116,7 +119,7 @@ export function Header() {
           <div className="flex items-center gap-8">
             <nav
               aria-label="Primary"
-              className="hidden items-center gap-8 md:flex"
+              className="hidden items-center gap-8 lg:flex"
             >
               {leftNav.map((item) => (
                 <Link key={item.key} href={item.href} className={navLink}>
@@ -129,7 +132,7 @@ export function Header() {
               type="button"
               onClick={() => setMobileOpen(true)}
               aria-label={t("menu")}
-              className="-ms-2.5 flex h-11 w-11 items-center justify-center opacity-90 transition-opacity hover:opacity-100 md:hidden"
+              className="-ms-2.5 flex h-11 w-11 items-center justify-center opacity-90 transition-opacity hover:opacity-100 lg:hidden"
             >
               <MenuIcon />
             </button>
@@ -144,7 +147,7 @@ export function Header() {
             )}
           />
 
-          {/* RIGHT of centre: ABOUT · CONTACT · BOOK AN APPOINTMENT · EN / AR */}
+          {/* RIGHT of centre: CONTACT · BOOK AN APPOINTMENT · EN / AR */}
           <div className="flex items-center justify-end gap-7">
             <nav
               aria-label="Secondary"
@@ -155,10 +158,24 @@ export function Header() {
                   {t(`nav.${item.key}`)}
                 </Link>
               ))}
+
+              {/* The single conversion goal — a hairline-bordered CTA that
+                  rides currentColor, so it inverts with the header. Gold
+                  arrives only on hover, like jewelry catching light. */}
+              <Link
+                href="/contact"
+                className={cn(
+                  "inline-flex items-center border border-current/30 px-5 py-2.5",
+                  "text-[0.8125rem] font-medium uppercase tracking-[0.16em]",
+                  "transition-colors duration-[600ms] ease-[var(--ease-out-expo)]",
+                  "hover:border-gold hover:bg-gold/10",
+                )}
+              >
+                {t("cta")}
+              </Link>
             </nav>
 
-            {/* Toggle hidden for now — logic/routing kept intact */}
-            <LocaleSwitcher className="hidden" />
+            <LocaleSwitcher />
           </div>
         </div>
       </header>

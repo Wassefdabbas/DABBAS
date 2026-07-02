@@ -14,8 +14,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "About" });
+  // The locale layout's title template appends "— DABBAS".
   return {
-    title: `${t("headline")} — DABBAS`,
+    title: t("headline"),
     description: t("lead"),
   };
 }

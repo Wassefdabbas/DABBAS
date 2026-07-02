@@ -39,6 +39,9 @@ Gold rule: if more than ~5% of any viewport is gold, it's too much. Gold is jewe
 - **Accent:** sparse small-caps with `letter-spacing: 0.2em` for labels (NEW ARRIVALS, etc).
 - Arabic: load a matching elegant Arabic serif (`Amiri` or `Noto Naskh Arabic`).
   Mirror layout fully under `dir="rtl"`.
+  **Exception — the homepage hero never mirrors.** It is LTR-locked (`dir="ltr"`
+  on the section): glass panel left, bride right, arrow → in both locales; only
+  the words are Arabic. Don't add `rtl:` direction variants inside the hero.
 
 ## Animation principles (Emil Kowalski school — follow strictly)
 1. **Spring, not duration, for anything interactive.** Use Motion springs.
@@ -54,6 +57,12 @@ Gold rule: if more than ~5% of any viewport is gold, it's too much. Gold is jewe
 7. **Motion should feel like fabric:** slow settle, slight overshoot at most. Nothing
    should "pop." Durations for reveals 0.7–1.1s, not 0.3s.
 8. **Smooth scroll** via Lenis, synced to GSAP ScrollTrigger.
+9. **Pinned scenes** (`<ScrollScene>`): GSAP pins, Motion `useTransform` drives
+   the values. Budget the scroll honestly — all beats finish by progress 0.8,
+   the last 20% is a settled breath, never a dead tail. Current scenes:
+   OurCraft 200vh (dark), Heritage 180vh (light). Register ScrollTrigger only
+   in SmoothScrollProvider. Never stack two pinned scenes back-to-back — put
+   a normal section between them.
 
 ## Signature interactions to build (the "storytelling")
 - **Hero:** a full-bleed bridal image; the veil/translucent layer drifts on a slow parallax
@@ -80,6 +89,21 @@ Gold rule: if more than ~5% of any viewport is gold, it's too much. Gold is jewe
   `<RevealImage>`, `<Parallax>`, `<Stagger>`). Build these once, reuse everywhere.
 - Tailwind for layout; CSS vars for color/type tokens. `cn()` helper (clsx+twMerge).
 - Keep it DRY. Don't repeat animation config — centralize in `src/lib/motion.ts`.
+- Collection routing: `/collection` (index, interactive filter) →
+  `/collection/category/[slug]` (line landing pages; homepage tiles and footer
+  link here) → `/collection/[slug]` (veil detail). The category predicate
+  lives in `src/lib/category-filter.ts` — client-safe, shared by the server
+  route and the grid filter; never inline `categorySlug === x` elsewhere.
+  Category fallbacks (the four house lines) live in `src/lib/categories.ts`.
+- Appointments (the booking feature): data model in `src/lib/appointments.ts`
+  (Mongo `appointments` collection, `_id` = UUID; `status` new→contacted→archived).
+  The public form posts via `src/app/[locale]/contact/actions.ts` (unauthenticated,
+  validated); admin triages at `/admin/appointments`. Pure types + the
+  `CONTACT_METHODS` constant live in `src/lib/appointment-shared.ts` so client
+  components can import them without pulling the Mongo driver into the browser
+  bundle. **Rule: never import a value (not just a type) from a module that
+  transitively imports `@/lib/mongo` into a `"use client"` file** — extract the
+  shared value like `appointment-shared.ts` / `category-filter.ts` do.
 
 ## What NOT to do
 - No generic AI-template look (no purple gradients, no glassmorphism, no emoji in UI).

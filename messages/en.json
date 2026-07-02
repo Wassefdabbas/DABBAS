@@ -17,19 +17,16 @@
   "Footer": {
     "atelier": {
       "title": "The Atelier",
-      "story": "Our story",
-      "craft": "Our craft",
-      "journal": "Journal"
+      "story": "Our story"
     },
     "collection": {
       "title": "Collection",
-      "veils": "Veils",
-      "crowns": "Crowns",
-      "newArrivals": "New arrivals"
+      "veils": "Veils"
     },
     "visit": {
       "title": "Visit",
       "address": "Damascus, by appointment",
+      "book": "Book an appointment",
       "email": "hello@dabbas-atelier.com",
       "instagram": "Instagram"
     },
@@ -37,7 +34,8 @@
       "title": "Newsletter",
       "blurb": "Quiet letters, twice a year.",
       "placeholder": "Your email",
-      "submit": "Subscribe"
+      "submit": "Subscribe",
+      "thanks": "Thank you. Our next letter will find you."
     },
     "copyright": "© {year} DABBAS. Made by hand.",
     "credit": "Damascus · Est. 1966"
@@ -134,6 +132,50 @@
     "eyebrow": "Visit",
     "headline": "Come to the atelier.",
     "lead": "We work by appointment. The atelier sits quietly in Damascus — come for a measurement, or simply for tea.",
+    "form": {
+      "eyebrow": "By appointment",
+      "headline": "Request a fitting at the atelier.",
+      "fields": {
+        "name": "Your name",
+        "method": "How should we reach you?",
+        "date": "Preferred date",
+        "message": "A note"
+      },
+      "methods": {
+        "whatsapp": "WhatsApp",
+        "phone": "Phone",
+        "email": "Email"
+      },
+      "valueLabel": {
+        "whatsapp": "WhatsApp number",
+        "phone": "Phone number",
+        "email": "Email address"
+      },
+      "placeholders": {
+        "name": "The name we should ask for",
+        "whatsapp": "+963 …",
+        "phone": "+963 …",
+        "email": "you@example.com",
+        "message": "Your wedding date, the veil you have in mind, or anything you'd like us to know."
+      },
+      "optional": "(optional)",
+      "submit": "Request appointment",
+      "submitting": "Sending…",
+      "success": {
+        "eyebrow": "Received",
+        "headline": "Thank you. The atelier will be in touch.",
+        "body": "We answer every request by hand, usually within two days. We look forward to meeting you."
+      },
+      "errors": {
+        "nameRequired": "Please leave us your name.",
+        "contactRequired": "Please leave us a way to reach you.",
+        "tooLong": "That's a little too long — please shorten it.",
+        "unreachable": "We couldn't save your request just now.",
+        "unreachableCta": "Message us on WhatsApp instead."
+      }
+    },
+    "directLabel": "Or reach us directly",
+    "directBlurb": "Prefer to speak now? The atelier answers WhatsApp and email through the working week.",
     "whatsapp": {
       "label": "WhatsApp",
       "blurb": "The fastest way to reach the atelier.",
@@ -164,6 +206,21 @@
       "all": "All veils",
       "close": "Close",
       "empty": "No veils in this category yet."
+    },
+    "category": {
+      "eyebrow": "The Collection",
+      "all": "All veils",
+      "count": "{count, plural, one {One piece} other {# pieces}}",
+      "cta": "Book an appointment",
+      "blurbs": {
+        "signature": "The house's defining work — the veils DABBAS is known by, each finished by a single pair of hands.",
+        "romance": "Delicate lace, freshwater pearls, soft tulle. Veils that whisper rather than announce.",
+        "cathedral": "Dramatic length, timeless presence. A veil that arrives a moment after the bride does.",
+        "bespoke": "Designed entirely around you — begun in conversation at the atelier, finished at the last knot. Made once, never repeated."
+      },
+      "empties": {
+        "bespoke": "Bespoke pieces are made once, for one bride, and never kept in stock. Begin yours at the atelier."
+      }
     },
     "detail": {
       "details": "Details",

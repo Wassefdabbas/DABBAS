@@ -30,7 +30,10 @@ export function DetailGallery({
   return (
     <div className="flex flex-col gap-6">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-mist">
-        <AnimatePresence mode="wait" initial={false}>
+        {/* popLayout: the incoming image starts its fade immediately instead
+            of waiting out the exit (mode="wait" made every swap 2×0.6s).
+            Both layers are absolutely positioned, so the "pop" is free. */}
+        <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
             key={active}
             initial={reduced ? false : { opacity: 0 }}

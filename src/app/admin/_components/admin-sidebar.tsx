@@ -33,6 +33,17 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    href: "/admin/appointments",
+    label: "Appointments",
+    matches: (p) => p.startsWith("/admin/appointments"),
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-[18px] w-[18px]">
+        <rect x="3" y="5" width="18" height="14" rx="1" />
+        <path d="m3 7 9 7 9-7" />
+      </svg>
+    ),
+  },
+  {
     href: "/admin/site",
     label: "Site & contact",
     matches: (p) => p.startsWith("/admin/site"),

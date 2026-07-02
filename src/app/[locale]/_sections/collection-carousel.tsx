@@ -1,6 +1,7 @@
 "use client";
 
 import useEmblaCarousel from "embla-carousel-react";
+import { useLocale } from "next-intl";
 import { CollectionCard, type CollectionCardData } from "./collection-card";
 
 /**
@@ -9,10 +10,12 @@ import { CollectionCard, type CollectionCardData } from "./collection-card";
  * (the grid takes over).
  */
 export function CollectionCarousel({ cards }: { cards: CollectionCardData[] }) {
+  const locale = useLocale();
   const [emblaRef] = useEmblaCarousel({
     align: "start",
     loop: false,
-    direction: "ltr",
+    // Embla doesn't read the DOM dir attribute — it must be told.
+    direction: locale === "ar" ? "rtl" : "ltr",
     dragFree: false,
     containScroll: "trimSnaps",
   });

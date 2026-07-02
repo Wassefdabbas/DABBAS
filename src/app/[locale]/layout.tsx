@@ -124,12 +124,12 @@ export default async function LocaleLayout({
   // Enables static rendering for child server components
   setRequestLocale(locale);
 
-  // Keep the layout in LTR for every locale — Arabic swaps the words/fonts but
-  // the page direction and composition stay identical to English (no mirroring).
+  // Arabic renders fully mirrored: dir="rtl" flips the composition, and the
+  // rtl: utilities / logical properties throughout the components follow it.
   return (
     <html
       lang={locale}
-      dir="ltr"
+      dir={locale === "ar" ? "rtl" : "ltr"}
       className={`${displaySerif.variable} ${bodySans.variable} ${arabicDisplay.variable} ${arabicBody.variable} ${scriptFont.variable}`}
     >
       <body className="min-h-screen bg-porcelain text-graphite">

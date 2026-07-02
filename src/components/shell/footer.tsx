@@ -1,9 +1,12 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Wordmark } from "./wordmark";
 import { NewsletterForm } from "./newsletter-form";
 import { resolveContact } from "@/lib/contact";
 import { getSiteContent } from "@/lib/site-content";
+import { getCategories } from "@/lib/categories";
+import { pickL } from "@/lib/collection";
+import type { Locale } from "@/i18n/routing";
 
 /**
  * Editorial footer. Four columns on desktop:
@@ -14,9 +17,15 @@ import { getSiteContent } from "@/lib/site-content";
  */
 export async function Footer() {
   const t = await getTranslations("Footer");
-  const site = await getSiteContent();
+  const locale = (await getLocale()) as Locale;
+  const [site, categories] = await Promise.all([
+    getSiteContent(),
+    getCategories(),
+  ]);
   const contact = resolveContact(site.contact);
   const year = new Date().getFullYear();
+  // The collection lines — capped so the column stays quiet.
+  const lines = categories.slice(0, 4);
 
   return (
     <footer className="bg-porcelain px-6 pt-24 pb-10 sm:px-10 lg:px-20">
@@ -29,27 +38,28 @@ export async function Footer() {
 
         {/* Columns */}
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          {/* Atelier */}
+          {/* Atelier — only real destinations; no ghost links. */}
           <FooterColumn title={t("atelier.title")}>
             <FooterLink href="/about">{t("atelier.story")}</FooterLink>
-            <FooterLink href="/about">{t("atelier.craft")}</FooterLink>
-            <FooterLink href="/about">{t("atelier.journal")}</FooterLink>
           </FooterColumn>
 
-          {/* Collection */}
+          {/* Collection — all veils plus one link per line. */}
           <FooterColumn title={t("collection.title")}>
             <FooterLink href="/collection">{t("collection.veils")}</FooterLink>
-            <FooterLink href="/collection">
-              {t("collection.crowns")}
-            </FooterLink>
-            <FooterLink href="/collection">
-              {t("collection.newArrivals")}
-            </FooterLink>
+            {lines.map((c) => (
+              <FooterLink
+                key={c.slug}
+                href={`/collection/category/${c.slug}`}
+              >
+                {pickL(c.name, locale)}
+              </FooterLink>
+            ))}
           </FooterColumn>
 
           {/* Visit */}
           <FooterColumn title={t("visit.title")}>
             <p className="text-graphite">{t("visit.address")}</p>
+            <FooterLink href="/contact">{t("visit.book")}</FooterLink>
             <a
               className="text-graphite transition-colors hover:text-ink"
               href={`mailto:${contact.email}`}
@@ -105,7 +115,7 @@ function FooterLink({
   href,
   children,
 }: {
-  href: "/about" | "/collection" | "/contact";
+  href: string;
   children: React.ReactNode;
 }) {
   return (

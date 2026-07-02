@@ -5,12 +5,17 @@ import { getFeaturedVeils, pickL } from "@/lib/collection";
 import type { Locale } from "@/i18n/routing";
 import { FeaturedCard } from "./featured-card";
 
-const GRID_COUNT = 8; // 2 rows × 4 columns
+const GRID_COUNT = 8; // at most 2 rows × 4 columns
 
 /**
- * Featured Veils — a centered editorial grid: 8 cards in 4 columns × 2 rows
+ * Featured Veils — a centered editorial grid: up to 8 cards in 4 columns
  * (responsive: 2 cols on small screens). Each card is a 3:4 portrait image
  * with the veil name + line label below, linking to its detail page.
+ *
+ * The grid shows only real veils — never repeats to fill rows (each piece
+ * is one of a kind; seeing it twice reads as an error) and never pads with
+ * placeholders (an atelier with few pieces is scarcity, not emptiness).
+ * A ragged last row is fine — editorial grids carry it.
  *
  * Strings + data are resolved server-side so the page stays statically
  * rendered per locale.
@@ -20,8 +25,9 @@ export async function FeaturedVeils() {
   const locale = (await getLocale()) as Locale;
   const veils = await getFeaturedVeils(GRID_COUNT);
 
-  const base = veils.map((v) => ({
+  const items = veils.map((v) => ({
     slug: v.slug,
+    key: v.slug,
     name: pickL(v.name, locale),
     lineLabel: pickL(v.lineLabel, locale),
     cover: v.cover,
@@ -29,14 +35,8 @@ export async function FeaturedVeils() {
     hover: v.gallery?.[0] ?? null,
   }));
 
-  // Ensure the 4×2 grid always reads complete: if fewer than 8 veils exist,
-  // cycle through what we have to fill the remaining tiles (unique keys).
-  const items = base.length
-    ? Array.from({ length: GRID_COUNT }, (_, i) => ({
-        ...base[i % base.length],
-        key: `${base[i % base.length].slug}-${i}`,
-      }))
-    : [];
+  // Nothing to feature → no section (never an empty frame).
+  if (items.length === 0) return null;
 
   return (
     <section aria-label="Featured veils" className="bg-porcelain py-28 sm:py-36">

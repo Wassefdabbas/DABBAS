@@ -158,8 +158,7 @@ export function MobileNav({
                   &rarr;
                 </span>
               </Link>
-              {/* Toggle hidden for now — logic/routing kept intact */}
-              <LocaleSwitcher className="hidden" />
+              <LocaleSwitcher />
             </div>
           </div>
         </motion.div>

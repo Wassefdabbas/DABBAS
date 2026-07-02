@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { Link } from "@/i18n/navigation";
 import { RevealText, RevealImage, Parallax } from "@/components/motion";
+import { BrandMedia } from "@/components/brand-media";
 import { useReducedMotion } from "@/lib/hooks/use-reduced-motion";
 import { useMediaQuery } from "@/lib/hooks/use-media-query";
 import { cn } from "@/lib/cn";
@@ -21,18 +22,19 @@ import type { Media } from "@/lib/site-content";
  * solid porcelain block with the headline + link ONLY (no subheading). No glass,
  * no blur, no backdrop-filter on phones.
  *
- * Image is hardcoded to /public/hero/Herosection.png. The `media` prop is still
- * accepted (the homepage passes it) but ignored.
+ * Media comes from the admin-editable site content (image or video). When no
+ * slot is set — or Mongo is unreachable — falls back to the bundled
+ * /public/hero/Herosection.png so the hero never renders empty.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function Hero({ media: _media }: { media: Media }) {
+export function Hero({ media }: { media: Media }) {
   const t = useTranslations("Home.hero");
   const reduced = useReducedMotion();
   // Desktop-only glass. Never renders below 768px (no GPU cost on phones).
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  // Layout is always LTR (Arabic swaps words, not direction), so the feather
-  // always dissolves toward the end edge — same as English.
+  // The hero is deliberately LTR-locked (dir="ltr" on the section): the
+  // composition is identical in both locales — glass on the left, bride on
+  // the right — only the words change. So the feather always dissolves right.
   const fade = "right";
   // A soft dark wash over the blurred left — enough for the WHITE copy to stay
   // legible, while the image still shows through and feathers to clear.
@@ -42,6 +44,9 @@ export function Hero({ media: _media }: { media: Media }) {
   return (
     <section
       aria-label="Hero"
+      // LTR-locked: the hero never mirrors in Arabic — same composition,
+      // Arabic words. (The rest of the page follows the html dir.)
+      dir="ltr"
       className={cn(
         "relative w-full overflow-hidden bg-porcelain",
         // Mobile: stacked (image block + porcelain copy block) → natural height.
@@ -57,15 +62,24 @@ export function Hero({ media: _media }: { media: Media }) {
       >
         <Parallax speed={0.15} className="h-full w-full">
           <div className="relative h-full w-full">
-            <Image
-              src="/hero/Herosection.png"
-              alt="DABBAS — bride in handmade veil"
-              fill
-              priority
-              quality={90}
-              sizes="100vw"
-              className="object-cover object-[60%_center]"
-            />
+            {media ? (
+              <BrandMedia
+                media={media}
+                sizes="100vw"
+                priority
+                className="object-cover object-[60%_center]"
+              />
+            ) : (
+              <Image
+                src="/hero/Herosection.png"
+                alt="DABBAS — bride in handmade veil"
+                fill
+                priority
+                quality={90}
+                sizes="100vw"
+                className="object-cover object-[60%_center]"
+              />
+            )}
           </div>
         </Parallax>
       </RevealImage>
@@ -150,13 +164,14 @@ export function Hero({ media: _media }: { media: Media }) {
                 aria-hidden
                 className="absolute inset-x-0 -bottom-1 h-px bg-ink/25 md:bg-porcelain/40"
               />
-              {/* Gold wipe — draws across from the leading edge on hover */}
+              {/* Gold wipe — draws across from the left on hover. No rtl:
+                  variants here: the hero is LTR-locked in both locales. */}
               <span
                 aria-hidden
                 className={cn(
                   "absolute inset-x-0 -bottom-1 h-px origin-left scale-x-0 bg-gold",
                   "transition-transform duration-[600ms] ease-[var(--ease-out-expo)]",
-                  "group-hover:scale-x-100 rtl:origin-right",
+                  "group-hover:scale-x-100",
                 )}
               />
             </span>
@@ -164,7 +179,7 @@ export function Hero({ media: _media }: { media: Media }) {
               aria-hidden
               className={cn(
                 "transition-transform duration-[600ms] ease-[var(--ease-out-expo)]",
-                "group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1",
+                "group-hover:translate-x-1",
               )}
             >
               &rarr;

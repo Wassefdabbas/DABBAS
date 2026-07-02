@@ -4,21 +4,32 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { motion, useTransform, type MotionValue } from "motion/react";
 import { ScrollScene } from "@/components/motion";
+import { BrandImage } from "@/components/brand-image";
 import type { MediaImage } from "@/lib/site-content";
 
-function CraftScene({ progress }: { progress: MotionValue<number> }) {
+function CraftScene({
+  progress,
+  media,
+}: {
+  progress: MotionValue<number>;
+  media: MediaImage | null;
+}) {
   // Camera move: image starts wide & slightly off-center, pulls into a tight,
   // centered hold as progress goes 0 -> 1. Copy fades in and lifts; the
   // vignette deepens to keep the text legible.
+  //
+  // Scroll budget (Phase 3): the scene is 200vh (100vh of pinned scrub).
+  // Beats fill 0 -> 0.8 of the scrub; [0.8, 1] is a short settled breath
+  // before the pin releases — the old 260vh version idled for its last 30%.
   const imageScale = useTransform(progress, [0, 1], [1.18, 1.0]);
   const imageShiftY = useTransform(progress, [0, 1], ["6%", "-4%"]);
-  const overlay = useTransform(progress, [0, 0.55, 1], [0.15, 0.45, 0.55]);
+  const overlay = useTransform(progress, [0, 0.55, 0.9], [0.15, 0.45, 0.55]);
 
-  const eyebrowOpacity = useTransform(progress, [0, 0.2, 0.9, 1], [0, 1, 1, 0.85]);
-  const headlineY = useTransform(progress, [0.1, 0.6], [40, 0]);
-  const headlineOpacity = useTransform(progress, [0.1, 0.45], [0, 1]);
-  const bodyOpacity = useTransform(progress, [0.4, 0.7], [0, 1]);
-  const bodyY = useTransform(progress, [0.4, 0.7], [24, 0]);
+  const eyebrowOpacity = useTransform(progress, [0, 0.22], [0, 1]);
+  const headlineY = useTransform(progress, [0.12, 0.58], [40, 0]);
+  const headlineOpacity = useTransform(progress, [0.12, 0.48], [0, 1]);
+  const bodyOpacity = useTransform(progress, [0.45, 0.75], [0, 1]);
+  const bodyY = useTransform(progress, [0.45, 0.8], [24, 0]);
 
   const t = useTranslations("Home.craft");
 
@@ -28,13 +39,17 @@ function CraftScene({ progress }: { progress: MotionValue<number> }) {
         style={{ scale: imageScale, y: imageShiftY }}
         className="absolute inset-0 origin-center will-change-transform"
       >
-        <Image
-          src="/hero/ourcraft.png"
-          alt="Hands finishing a veil edge at the DABBAS atelier"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
+        {media ? (
+          <BrandImage image={media.image} sizes="100vw" className="object-cover" />
+        ) : (
+          <Image
+            src="/hero/ourcraft.png"
+            alt="Hands finishing a veil edge at the DABBAS atelier"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        )}
       </motion.div>
 
       <motion.div
@@ -82,14 +97,14 @@ function CraftScene({ progress }: { progress: MotionValue<number> }) {
 /**
  * "Our Craft" — pinned scroll-scrubbed scene. Image performs a slow camera
  * push-in while eyebrow → headline → body reveal in sequence, all driven
- * by the same scroll progress.
+ * by the same scroll progress. Media comes from the admin-editable site
+ * content, falling back to the bundled still.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function OurCraft({ media: _media }: { media: MediaImage | null }) {
+export function OurCraft({ media }: { media: MediaImage | null }) {
   return (
     <section aria-label="Our Craft" className="bg-ink">
-      <ScrollScene length="260vh">
-        {(progress) => <CraftScene progress={progress} />}
+      <ScrollScene length="200vh">
+        {(progress) => <CraftScene progress={progress} media={media} />}
       </ScrollScene>
     </section>
   );

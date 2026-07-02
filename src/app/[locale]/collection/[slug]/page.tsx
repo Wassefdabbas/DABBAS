@@ -36,8 +36,9 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   const veil = await getVeil(slug);
   if (!veil) return { title: "DABBAS" };
+  // The locale layout's title template appends "— DABBAS".
   return {
-    title: `${pickL(veil.name, locale)} — DABBAS`,
+    title: pickL(veil.name, locale),
     description: pickL(veil.description, locale),
   };
 }

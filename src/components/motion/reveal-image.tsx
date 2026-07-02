@@ -1,11 +1,17 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useLocale } from "next-intl";
 import { useReducedMotion } from "@/lib/hooks/use-reduced-motion";
 import { cn } from "@/lib/cn";
 import { easeOutExpo, revealDurations } from "@/lib/motion";
 
-type Direction = "left" | "right" | "top" | "bottom";
+/**
+ * Prefer the logical directions ("start"/"end") for horizontal wipes — they
+ * resolve against the locale so the reveal mirrors correctly in RTL.
+ * "left"/"right" remain for the rare physically-anchored case.
+ */
+type Direction = "start" | "end" | "left" | "right" | "top" | "bottom";
 
 type Props = {
   children: React.ReactNode;
@@ -25,7 +31,7 @@ type Props = {
   reveal?: "inView" | "mount";
 };
 
-const clipFor: Record<Direction, { hidden: string; visible: string }> = {
+const clipFor: Record<Exclude<Direction, "start" | "end">, { hidden: string; visible: string }> = {
   bottom: { hidden: "inset(100% 0 0 0)", visible: "inset(0 0 0 0)" },
   top:    { hidden: "inset(0 0 100% 0)", visible: "inset(0 0 0 0)" },
   left:   { hidden: "inset(0 100% 0 0)", visible: "inset(0 0 0 0)" },
@@ -50,7 +56,21 @@ export function RevealImage({
   reveal = "inView",
 }: Props) {
   const reduced = useReducedMotion();
-  const clip = clipFor[direction];
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+
+  // Resolve logical directions against the writing direction.
+  const physical =
+    direction === "start"
+      ? isRtl
+        ? "right"
+        : "left"
+      : direction === "end"
+        ? isRtl
+          ? "left"
+          : "right"
+        : direction;
+  const clip = clipFor[physical];
 
   if (reduced) {
     return (

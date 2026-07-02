@@ -32,7 +32,7 @@ export function CollectionCard({
 }) {
   return (
     <Link
-      href={`/collection/${card.slug}`}
+      href={`/collection/category/${card.slug}`}
       aria-label={`${card.name} — ${card.descriptor}`}
       className={cn(
         "group relative block overflow-hidden bg-mist focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-0",

@@ -6,9 +6,19 @@ import { getCategories } from "@/lib/categories";
 import type { Locale } from "@/i18n/routing";
 import { CollectionGrid } from "./collection-grid";
 
-export const metadata: Metadata = {
-  title: "Collection — DABBAS",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Collection.index" });
+  // The locale layout's title template appends "— DABBAS".
+  return {
+    title: t("eyebrow"),
+    description: t("blurb"),
+  };
+}
 
 export default async function CollectionIndex({
   params,

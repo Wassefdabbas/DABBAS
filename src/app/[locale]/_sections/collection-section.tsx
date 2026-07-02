@@ -13,7 +13,8 @@ const CARDS: Array<{ key: CardKey; name: string; slug: string }> = [
 ];
 
 /**
- * "The Collection" — four editorial cards directly below the hero.
+ * "The Collection" — four editorial cards directly below the hero, each
+ * linking to its /collection/category/[slug] landing page.
  * Desktop: a flush 2×2 magazine grid. Mobile: a peeking Embla carousel.
  * Strings resolved server-side so the section stays statically rendered.
  */

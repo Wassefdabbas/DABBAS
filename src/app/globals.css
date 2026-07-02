@@ -85,10 +85,11 @@ body {
   letter-spacing: 0.005em;
 }
 
-/* Arabic — keyed to language, not direction (the layout stays LTR). Remap the
-   shared font variables so EVERY usage (including inline
-   `font-[family-name:var(--font-display)]` utilities) picks up the Arabic
-   faces automatically. Naskh also needs a touch more size + line-height. */
+/* Arabic — keyed to language (the layout also flips to dir="rtl" in the
+   locale layout). Remap the shared font variables so EVERY usage (including
+   inline `font-[family-name:var(--font-display)]` utilities) picks up the
+   Arabic faces automatically. Naskh also needs a touch more size +
+   line-height. */
 html[lang="ar"] {
   --font-display: var(--font-arabic-display);
   --font-sans:    var(--font-arabic);

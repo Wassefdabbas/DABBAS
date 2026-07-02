@@ -94,7 +94,15 @@
       "Bash(curl -s \"http://localhost:3000/ar\")",
       "Bash(node -e \"const m=JSON.parse\\(require\\('fs'\\).readFileSync\\('messages/ar.json','utf8'\\)\\); console.log\\('OurCraft headline:', JSON.stringify\\(m.Home.craft?.headline ?? m.Home.ourCraft?.headline ?? '\\(not found under craft/ourCraft\\)'\\)\\)\")",
       "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('messages/ar.json','utf8'\\)\\);JSON.parse\\(require\\('fs'\\).readFileSync\\('messages/en.json','utf8'\\)\\);console.log\\('JSON OK'\\)\")",
-      "Bash(awk '{print $5, $9}')"
+      "Bash(awk '{print $5, $9}')",
+      "mcp__magic__21st_magic_component_builder",
+      "Bash(curl -s \"http://localhost:3000/en/collection/category/romance\")",
+      "Bash(curl -s \"http://localhost:3000/en/collection/category/nonexistent\")",
+      "Bash(curl -s -o /dev/null -w \"home=%{http_code}\\\\n\" http://localhost:3000/en)",
+      "Bash(curl -s -o /dev/null -w \"contact=%{http_code}\\\\n\" http://localhost:3000/en/contact)",
+      "Bash(curl -s -o /dev/null -w \"contact_en=%{http_code}\\\\n\" http://localhost:3000/en/contact)",
+      "Bash(curl -s -o /dev/null -w \"contact_ar=%{http_code}\\\\n\" http://localhost:3000/ar/contact)",
+      "Bash(curl -s -o /dev/null -w \"admin=%{http_code}\\\\n\" http://localhost:3000/admin/appointments)"
     ],
     "additionalDirectories": [
       "c:\\Users\\MSI\\Desktop\\dabbas-atelier\\src\\app\\[locale]\\_sections"

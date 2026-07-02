@@ -7,7 +7,8 @@ import { motion, useMotionValue, type MotionValue } from "motion/react";
 import { useReducedMotion } from "@/lib/hooks/use-reduced-motion";
 import { cn } from "@/lib/cn";
 
-gsap.registerPlugin(ScrollTrigger);
+// ScrollTrigger is registered once, in SmoothScrollProvider (which wraps the
+// whole app and therefore evaluates before any ScrollScene effect runs).
 
 type Props = {
   /**

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { getAllSlugs } from "@/lib/collection";
+import { getCategories } from "@/lib/categories";
 
 /**
  * Sitemap covers the public site only — every static route × every locale,
@@ -18,7 +19,10 @@ const staticRoutes: Array<{ path: string; priority: number; changeFreq: Metadata
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const slugs = await getAllSlugs();
+  const [slugs, categories] = await Promise.all([
+    getAllSlugs(),
+    getCategories(),
+  ]);
   const now = new Date();
 
   const out: MetadataRoute.Sitemap = [];
@@ -35,6 +39,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: now,
         changeFrequency: changeFreq,
         priority,
+        alternates: { languages: alternates },
+      });
+    }
+  }
+
+  for (const cat of categories) {
+    for (const locale of routing.locales) {
+      const path = `/collection/category/${cat.slug}`;
+      const url = `${SITE_URL}/${locale}${path}`;
+      const alternates: Record<string, string> = {};
+      for (const alt of routing.locales) {
+        alternates[alt] = `${SITE_URL}/${alt}${path}`;
+      }
+      out.push({
+        url,
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.8,
         alternates: { languages: alternates },
       });
     }

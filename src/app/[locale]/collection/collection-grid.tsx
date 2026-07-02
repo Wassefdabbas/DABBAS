@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { BrandImage } from "@/components/brand-image";
 import { useReducedMotion } from "@/lib/hooks/use-reduced-motion";
 import { easeOutExpo } from "@/lib/motion";
+import { filterByCategory } from "@/lib/category-filter";
 import { cn } from "@/lib/cn";
 import type { BrandImage as BrandImageData } from "@/lib/images";
 
@@ -31,9 +32,12 @@ export type FilterCategory = { slug: string; name: string };
 export function CollectionGrid({
   items,
   categories,
+  emptyText,
 }: {
   items: GridItem[];
   categories: FilterCategory[];
+  /** Override the generic empty message (e.g. bespoke's made-to-order note). */
+  emptyText?: string;
 }) {
   const t = useTranslations("Collection.index");
   const reduced = useReducedMotion();
@@ -41,7 +45,7 @@ export function CollectionGrid({
   const [active, setActive] = useState<string | null>(null); // null = all
 
   const visible = useMemo(
-    () => (active ? items.filter((v) => v.categorySlug === active) : items),
+    () => (active ? filterByCategory(items, active) : items),
     [items, active],
   );
 
@@ -95,16 +99,22 @@ export function CollectionGrid({
         </div>
       )}
 
-      {/* ── Filter panel (reveals on click) ────────────────── */}
-      <AnimatePresence initial={false}>
-        {open && hasFilter && (
-          <motion.div
-            initial={reduced ? false : { height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={reduced ? { opacity: 0 } : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.5, ease: easeOutExpo }}
-            className="overflow-hidden"
-          >
+      {/* ── Filter panel (reveals on click) ──────────────────
+          Animates grid-template-rows 0fr → 1fr, the CSS technique for
+          opening to auto height without animating `height` itself (per
+          CLAUDE.md: never animate layout properties with JS). The panel
+          stays mounted; `inert` keeps its chips out of the tab order and
+          away from assistive tech while closed. Reduced motion is handled
+          by the global CSS kill-switch. */}
+      {hasFilter && (
+        <div
+          inert={!open}
+          className={cn(
+            "grid transition-[grid-template-rows,opacity] duration-500 ease-[var(--ease-out-expo)]",
+            open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+          )}
+        >
+          <div className="min-h-0 overflow-hidden">
             <div className="mb-12 border-y border-mist py-6">
               <p className="small-caps mb-4">{t("filterBy")}</p>
               <div className="flex flex-wrap gap-3">
@@ -123,13 +133,15 @@ export function CollectionGrid({
                 ))}
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
 
       {/* ── Grid ───────────────────────────────────────────── */}
       {visible.length === 0 ? (
-        <p className="py-20 text-center text-graphite">{t("empty")}</p>
+        <p className="mx-auto max-w-md py-20 text-center text-graphite">
+          {emptyText ?? t("empty")}
+        </p>
       ) : (
         <motion.div
           layout={!reduced}

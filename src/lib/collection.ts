@@ -12,6 +12,7 @@
 import type { BrandImage } from "./images";
 import type { Locale } from "@/i18n/routing";
 import { getDb } from "./mongo";
+import { filterByCategory } from "./category-filter";
 
 /* ---------------------------------------------------------------- types -- */
 
@@ -154,6 +155,7 @@ const veils: Veil[] = [
     ],
     completeYourLook: ["couronne", "etoile"],
     youMayAlsoLike: ["soie", "dentelle", "aube"],
+    categorySlug: "cathedral",
   },
   {
     slug: "soie",
@@ -201,6 +203,7 @@ const veils: Veil[] = [
     ],
     completeYourLook: ["couronne"],
     youMayAlsoLike: ["aube", "voile"],
+    categorySlug: "signature",
   },
   {
     slug: "dentelle",
@@ -249,6 +252,7 @@ const veils: Veil[] = [
     ],
     completeYourLook: ["couronne", "etoile"],
     youMayAlsoLike: ["voile", "etoile"],
+    categorySlug: "romance",
   },
   {
     slug: "couronne",
@@ -289,6 +293,7 @@ const veils: Veil[] = [
     ],
     completeYourLook: ["voile", "soie"],
     youMayAlsoLike: ["etoile"],
+    categorySlug: "romance",
   },
   {
     slug: "etoile",
@@ -337,6 +342,7 @@ const veils: Veil[] = [
     ],
     completeYourLook: ["couronne"],
     youMayAlsoLike: ["dentelle", "voile"],
+    categorySlug: "signature",
   },
   {
     slug: "aube",
@@ -377,6 +383,7 @@ const veils: Veil[] = [
     ],
     completeYourLook: ["couronne"],
     youMayAlsoLike: ["soie", "voile"],
+    categorySlug: "romance",
   },
 ];
 
@@ -389,6 +396,10 @@ export function getSampleVeils(): Veil[] {
 
 export async function getVeils(): Promise<Veil[]> {
   return (await readFromMongo()) ?? veils;
+}
+
+export async function getVeilsByCategory(categorySlug: string): Promise<Veil[]> {
+  return filterByCategory(await getVeils(), categorySlug);
 }
 
 export async function getVeil(slug: string): Promise<Veil | undefined> {

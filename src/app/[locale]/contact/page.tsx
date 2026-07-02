@@ -4,6 +4,7 @@ import { RevealText } from "@/components/motion";
 import { resolveContact, emailUrl, whatsappUrl } from "@/lib/contact";
 import { getSiteContent } from "@/lib/site-content";
 import type { Locale } from "@/i18n/routing";
+import { AppointmentForm } from "./appointment-form";
 
 export async function generateMetadata({
   params,
@@ -12,8 +13,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Contact" });
+  // The locale layout's title template appends "— DABBAS".
   return {
-    title: `${t("headline")} — DABBAS`,
+    title: t("headline"),
     description: t("lead"),
   };
 }
@@ -94,8 +96,24 @@ export default async function ContactPage({
         </div>
       </header>
 
-      {/* ── Action cards ─────────────────────────────────────── */}
+      {/* ── Appointment form — the primary path ──────────────── */}
+      <section className="px-6 pb-28 sm:px-12 lg:px-24">
+        <div className="mx-auto max-w-2xl">
+          <p className="small-caps mb-3">{t("form.eyebrow")}</p>
+          <h2 className="mb-10 font-[family-name:var(--font-display)] text-[clamp(1.75rem,3.4vw,2.5rem)] leading-[1.1] text-ink">
+            {t("form.headline")}
+          </h2>
+          <AppointmentForm directHref={waHref} />
+        </div>
+      </section>
+
+      {/* ── Direct channels — the secondary path ─────────────── */}
       <section className="px-6 pb-32 sm:px-12 lg:px-24">
+        <div className="mx-auto mb-10 max-w-5xl">
+          <div className="hairline mb-10 w-24" />
+          <p className="small-caps mb-3">{t("directLabel")}</p>
+          <p className="max-w-md text-graphite">{t("directBlurb")}</p>
+        </div>
         <div className="mx-auto grid max-w-5xl gap-px bg-mist sm:grid-cols-2">
           {/* WhatsApp */}
           <a
