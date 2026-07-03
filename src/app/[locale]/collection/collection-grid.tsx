@@ -147,7 +147,7 @@ export function CollectionGrid({
       ) : (
         <motion.div
           layout={!reduced}
-          className="grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-16"
+          className="grid grid-cols-3 gap-[2px]"
         >
           <AnimatePresence mode="popLayout">
             {visible.map((veil) => (
@@ -161,8 +161,11 @@ export function CollectionGrid({
               >
                 <Link
                   href={`/collection/${veil.slug}`}
-                  className="group block focus:outline-none"
+                  aria-label={veil.name}
+                  className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                 >
+                  {/* Image only — no zoom, no dark filter, no caption/name.
+                      On hover it crossfades to the veil's second image. */}
                   <div className="relative aspect-[3/4] overflow-hidden bg-mist">
                     {/* Cover — fades out on hover when a second image exists */}
                     <div
@@ -174,8 +177,7 @@ export function CollectionGrid({
                     >
                       <BrandImage
                         image={veil.cover}
-                        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 44vw, 45vw"
-                        className="transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
+                        sizes="(min-width: 640px) 33vw, 33vw"
                       />
                     </div>
                     {/* Second image — fades in on hover */}
@@ -183,23 +185,10 @@ export function CollectionGrid({
                       <div className="absolute inset-0 opacity-0 transition-opacity duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-100">
                         <BrandImage
                           image={veil.hover}
-                          sizes="(min-width: 1024px) 30vw, (min-width: 640px) 44vw, 45vw"
-                          className="transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
+                          sizes="(min-width: 640px) 33vw, 33vw"
                         />
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/30" />
-                    {/* Caption lifts in on hover */}
-                    <div className="absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-ink/70 to-transparent px-5 py-5 opacity-0 transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0 group-hover:opacity-100">
-                      <p className="small-caps !text-porcelain/85">
-                        {veil.lineLabel}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-4 flex items-baseline justify-between gap-3">
-                    <h2 className="font-[family-name:var(--font-display)] text-xl text-ink sm:text-2xl">
-                      {veil.name}
-                    </h2>
                   </div>
                 </Link>
               </motion.div>

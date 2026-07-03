@@ -13,6 +13,7 @@ import {
   getYouMayAlsoLike,
   getAllSlugs,
   pickL,
+  SPEC_KEYS,
 } from "@/lib/collection";
 import { routing, type Locale } from "@/i18n/routing";
 import { DetailGallery } from "./_components/detail-gallery";
@@ -68,6 +69,15 @@ export default async function VeilDetail({
     body: pickL(d.body, activeLocale),
   }));
 
+  // Structured specs (material, lace, …) — only the ones the admin filled in,
+  // in the canonical order. Rendered as a quiet definition list.
+  type SpecItem = { key: string; label: string; value: string };
+  const specItems = SPEC_KEYS.map((key): SpecItem | null => {
+    const value = veil.specs?.[key];
+    const text = value ? pickL(value, activeLocale).trim() : "";
+    return text ? { key, label: t(`specs.${key}`), value: text } : null;
+  }).filter((s): s is SpecItem => s !== null);
+
   return (
     <main className="bg-porcelain">
       {/* Breadcrumb / back link */}
@@ -116,22 +126,58 @@ export default async function VeilDetail({
               </p>
             )}
 
-            <p className="mt-8 max-w-md text-base leading-relaxed text-graphite">
+            {/* Details — structured specs the admin fills in (material, lace, …) */}
+            {specItems.length > 0 && (
+              <div className="mt-10">
+                <h2 className="small-caps mb-4 !text-ink">{t("details")}</h2>
+                <dl className="border-y border-mist">
+                  {specItems.map((s) => (
+                    <div
+                      key={s.key}
+                      className="flex items-baseline justify-between gap-6 border-b border-mist py-3 last:border-b-0"
+                    >
+                      <dt className="small-caps shrink-0">{s.label}</dt>
+                      <dd className="text-end text-sm leading-relaxed text-graphite">
+                        {s.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
+
+            {/* Optional legacy accordion detail items (from Advanced settings) */}
+            {accordionItems.length > 0 && (
+              <div className="mt-10">
+                <Accordion items={accordionItems} />
+              </div>
+            )}
+
+            {/* Short description */}
+            <p className="mt-10 max-w-md text-base leading-relaxed text-graphite">
               {pickL(veil.description, activeLocale)}
             </p>
 
-            <div className="mt-12">
-              <h2 className="small-caps mb-2 !text-ink">{t("details")}</h2>
-              <Accordion items={accordionItems} />
+            {/* CTAs — Book an Appointment (primary, → booking page) and
+                Inquire About This Veil (secondary, → WhatsApp) */}
+            <div className="mt-12 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-ink px-8 py-4 !text-porcelain transition-colors duration-300 hover:bg-gold-deep"
+              >
+                <span className="small-caps !text-current">{t("bookCta")}</span>
+                <span aria-hidden className="rtl:rotate-180">
+                  &rarr;
+                </span>
+              </Link>
+              <VeilEnquireButton
+                veilName={pickL(veil.name, activeLocale)}
+                variant="secondary"
+              />
             </div>
-
-            {/* Inline CTA — opens WhatsApp directly with veil name + URL */}
-            <div className="mt-12">
-              <VeilEnquireButton veilName={pickL(veil.name, activeLocale)} />
-              <p className="mt-4 max-w-sm text-sm text-muted">
-                {t("enquireSubhead")}
-              </p>
-            </div>
+            <p className="mt-4 max-w-sm text-sm text-muted">
+              {t("bookSubhead")}
+            </p>
           </div>
         </div>
       </section>

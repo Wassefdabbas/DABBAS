@@ -224,6 +224,14 @@
     },
     "detail": {
       "details": "التفاصيل",
+      "specs": {
+        "material": "الخامة",
+        "lace": "الدانتيل",
+        "decoration": "الزخرفة",
+        "silhouette": "القَصّة",
+        "color": "اللون",
+        "designer": "المصمّم"
+      },
       "completeYourLook": "أكملي إطلالتكِ",
       "youMayAlsoLike": "قد يعجبكِ أيضًا",
       "back": "العودة إلى المجموعة",

@@ -119,7 +119,7 @@ export default async function CategoryPage({
 
       {/* ── Grid — same component as the index, no filter UI ──── */}
       <section className="px-6 pb-24 sm:px-12 lg:px-24">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-[1600px]">
           <CollectionGrid items={items} categories={[]} emptyText={emptyText} />
         </div>
       </section>

@@ -224,6 +224,14 @@
     },
     "detail": {
       "details": "Details",
+      "specs": {
+        "material": "Material",
+        "lace": "Lace",
+        "decoration": "Decoration",
+        "silhouette": "Silhouette",
+        "color": "Color",
+        "designer": "Designer"
+      },
       "completeYourLook": "Complete your look",
       "youMayAlsoLike": "You may also like",
       "back": "Back to the collection",

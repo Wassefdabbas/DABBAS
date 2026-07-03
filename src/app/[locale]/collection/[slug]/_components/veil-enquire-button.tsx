@@ -3,13 +3,24 @@
 import { useTranslations } from "next-intl";
 import { MagneticButton } from "@/components/motion";
 import { whatsappUrl } from "@/lib/contact";
+import { cn } from "@/lib/cn";
 
 /**
  * Flow 2 — veil detail page CTA.
  * Opens WhatsApp directly with the veil name + current page URL pre-filled.
  * No form, no dashboard write — pure client redirect.
+ *
+ * `variant` lets it sit beside the primary "Book an Appointment" CTA:
+ * "primary" is the filled ink button; "secondary" is a quiet outline so the
+ * booking CTA stays the loudest thing on the page.
  */
-export function VeilEnquireButton({ veilName }: { veilName: string }) {
+export function VeilEnquireButton({
+  veilName,
+  variant = "primary",
+}: {
+  veilName: string;
+  variant?: "primary" | "secondary";
+}) {
   const t = useTranslations("Collection.detail");
 
   const handleClick = () => {
@@ -21,7 +32,12 @@ export function VeilEnquireButton({ veilName }: { veilName: string }) {
     <MagneticButton
       type="button"
       onClick={handleClick}
-      className="bg-ink px-8 py-4 text-porcelain transition-colors duration-300 hover:bg-gold-deep"
+      className={cn(
+        "px-8 py-4 transition-colors duration-300",
+        variant === "primary"
+          ? "bg-ink text-porcelain hover:bg-gold-deep"
+          : "border border-ink/25 text-ink hover:border-gold hover:text-gold-deep",
+      )}
       strength={0.3}
       labelStrength={0.25}
     >

@@ -37,12 +37,28 @@ export function RelatedRow({
               className="group block focus:outline-none"
             >
               <div className="relative aspect-[4/5] overflow-hidden bg-mist">
-                <BrandImage
-                  image={veil.cover}
-                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-                  className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
-                />
-                <div className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/10" />
+                {/* Cover — fades out on hover when a second image exists */}
+                <div
+                  className={
+                    veil.gallery?.[0]
+                      ? "absolute inset-0 transition-opacity duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-0"
+                      : "absolute inset-0"
+                  }
+                >
+                  <BrandImage
+                    image={veil.cover}
+                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                  />
+                </div>
+                {/* Second image — fades in on hover */}
+                {veil.gallery?.[0] && (
+                  <div className="absolute inset-0 opacity-0 transition-opacity duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-100">
+                    <BrandImage
+                      image={veil.gallery[0]}
+                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                    />
+                  </div>
+                )}
               </div>
               <div className="mt-5 flex items-baseline justify-between">
                 <h3 className="font-[family-name:var(--font-display)] text-xl text-ink">

@@ -65,7 +65,7 @@ export default async function CollectionIndex({
 
       {/* Grid + luxury filter */}
       <section className="px-6 pb-32 sm:px-12 lg:px-24">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-[1600px]">
           <CollectionGrid items={items} categories={filterCategories} />
         </div>
       </section>

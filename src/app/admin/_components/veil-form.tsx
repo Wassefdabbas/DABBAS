@@ -8,9 +8,20 @@ import {
   updateVeilAction,
 } from "../veils/actions";
 import type { BrandImage as BrandImageData } from "@/lib/images";
-import type { Veil, Localized, VeilDetail } from "@/lib/collection";
+import type { Veil, Localized, VeilDetail, SpecKey } from "@/lib/collection";
+import { SPEC_KEYS } from "@/lib/collection";
 import type { Category } from "@/lib/categories";
 import { cn } from "@/lib/cn";
+
+/** Admin-facing labels for the structured spec fields (UI is English). */
+const SPEC_LABELS: Record<SpecKey, string> = {
+  material: "Material",
+  lace: "Lace",
+  decoration: "Decoration",
+  silhouette: "Silhouette",
+  color: "Color",
+  designer: "Designer",
+};
 
 const blankLocalized = (): Localized => ({ en: "", ar: "" });
 const blankVeil = (): Veil => ({
@@ -74,6 +85,20 @@ export function VeilForm({
     setVeil((p) => ({
       ...p,
       price: { en: p.price?.en ?? "", ar: p.price?.ar ?? "", [lang]: v },
+    }));
+
+  /* Structured specs (material, lace, …) — each an optional bilingual line. */
+  const setSpec = (key: SpecKey, lang: "en" | "ar", v: string) =>
+    setVeil((p) => ({
+      ...p,
+      specs: {
+        ...p.specs,
+        [key]: {
+          en: p.specs?.[key]?.en ?? "",
+          ar: p.specs?.[key]?.ar ?? "",
+          [lang]: v,
+        },
+      },
     }));
 
   /* Details */
@@ -228,10 +253,25 @@ export function VeilForm({
         <ImageManager images={images} onChange={setImages} />
       </Panel>
 
+      {/* ── Specifications ─────────────────────────────────── */}
+      <Panel
+        title="Specifications"
+        description="Optional single-line details shown on the veil's page as a list. Only the rows you fill in appear."
+      >
+        {SPEC_KEYS.map((key) => (
+          <BilingualField
+            key={key}
+            label={SPEC_LABELS[key]}
+            value={veil.specs?.[key] ?? blankLocalized()}
+            onChange={(lang, v) => setSpec(key, lang, v)}
+          />
+        ))}
+      </Panel>
+
       {/* ── Story & price ──────────────────────────────────── */}
       <Panel title="Story & price" description="Optional copy and pricing shown on the detail page.">
         <BilingualField
-          label="Description"
+          label="Short description"
           textarea
           value={veil.description}
           onChange={(lang, v) => setL("description", lang, v)}
