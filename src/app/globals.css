@@ -139,7 +139,10 @@ html[lang="ar"] h5 {
   font-family: var(--font-arabic-display), serif;
   font-weight: 400; /* Amiri regular — calligraphic, not bold */
   letter-spacing: 0;
-  line-height: 1.5;
+  /* !important beats any Tailwind leading-* utility (e.g. leading-[1.05] on
+     OurCraft/Heritage h2) that would otherwise collapse tashkeel into adjacent
+     lines. 1.6 gives ~25% extra vertical room vs the Latin 1.28 equivalent. */
+  line-height: 1.6 !important;
 }
 
 /* Focus ring — gold, the brand accent */
@@ -183,6 +186,17 @@ html[lang="ar"] .small-caps {
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
+}
+
+/* Arabic tashkeel (diacritical marks) protrude above the standard ascender
+   line, which the overflow:hidden clip box doesn't account for (it's sized
+   from Latin font metrics). Expand the clip boundary upward with padding,
+   then pull the element back with a negative margin so line layout doesn't
+   shift. The inner animated span's y:"115%" is relative to its own height,
+   not this wrapper, so the start position of the animation is unaffected. */
+html[lang="ar"] .word-mask {
+  padding-block-start: 0.35em;
+  margin-block-start: -0.35em;
 }
 
 /* ============================================================
