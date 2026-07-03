@@ -209,7 +209,7 @@ export function SiteForm({
                 set("contact", { ...content.contact, email: e.target.value })
               }
               className="w-full border border-ink/15 bg-porcelain px-3 py-2 text-ink focus:border-gold focus:outline-none"
-              placeholder="hello@dabbas-atelier.com"
+              placeholder="dabbas.atelier@gmail.com"
             />
           </label>
           <label className="block">

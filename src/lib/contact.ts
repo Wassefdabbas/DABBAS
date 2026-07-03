@@ -8,15 +8,12 @@
  * SiteContent.contact). Use `resolveContact()` to merge the two.
  */
 export const contactDefaults = {
-  email: "hello@dabbas-atelier.com",
+  email: "dabbas.atelier@gmail.com",
   whatsapp: {
-    /** International format, digits only, no '+'. Syria is 963. PLACEHOLDER —
-     * set the real number in /admin/site. */
-    number: "963934067735",
-    /** Human-readable for display. */
-    display: "+963 934 067 735",
+    number: "963933530813",
+    display: "+963 933 530 813",
   },
-  instagram: "https://instagram.com/dabbas.atelier",
+  instagram: "https://instagram.com/dabbasart",
   address: {
     en: "Damascus, Syria — by appointment only",
     ar: "دمشق، سوريا — بموعد مسبق فقط",
