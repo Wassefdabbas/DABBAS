@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { RevealText, Stagger } from "@/components/motion";
 
 const STAT_KEYS = ["years", "brides", "handmade"] as const;
@@ -9,11 +9,15 @@ const STAT_KEYS = ["years", "brides", "handmade"] as const;
  * values. Uses the shared RevealText / Stagger motion primitives.
  */
 export async function AtelierStats() {
-  const t = await getTranslations("Home.stats");
+  const [t, locale] = await Promise.all([
+    getTranslations("Home.stats"),
+    getLocale(),
+  ]);
 
   return (
     <section
       aria-label="The atelier"
+      dir={locale === "ar" ? "rtl" : undefined}
       className="bg-porcelain px-6 py-28 sm:px-12 sm:py-36 lg:px-24"
     >
       <div className="mx-auto max-w-3xl text-center">
