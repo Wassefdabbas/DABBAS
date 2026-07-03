@@ -176,7 +176,9 @@ export function Header() {
               </Link>
             </nav>
 
-            <LocaleSwitcher />
+            <span className="hidden lg:block">
+              <LocaleSwitcher />
+            </span>
           </div>
         </div>
       </header>
