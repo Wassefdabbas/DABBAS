@@ -125,11 +125,11 @@ export function Hero({ media }: { media: Media }) {
           <h1
             dir={isArabic ? "rtl" : undefined}
             className={cn(
-              "flex flex-col items-center md:items-start",
+              "hero-h1 flex flex-col items-center md:items-start",
               isArabic
                 ? // Amiri — calligraphic Arabic display. Normal weight (only 400 loaded).
                   // Slightly smaller clamp: the 2 Arabic lines are longer than the 3 EN lines.
-                  "font-[family-name:var(--font-arabic-display)] font-normal normal-case tracking-normal text-[clamp(2rem,3.8vw,3.75rem)] leading-[1.2]"
+                  "font-[family-name:var(--font-arabic-display)] font-normal normal-case tracking-normal text-[clamp(2rem,3.8vw,3.75rem)]"
                 : "font-[family-name:var(--font-display)] font-semibold uppercase text-[clamp(2.5rem,4.6vw,4.5rem)] leading-[1.0] tracking-[0.02em]",
               "text-ink md:!text-porcelain",
             )}
@@ -141,12 +141,17 @@ export function Hero({ media }: { media: Media }) {
               staggerChildren={0.08}
               delay={0.1}
             />
-            <RevealText
-              as="span"
-              text={t("line3")}
-              staggerChildren={0.08}
-              delay={0.2}
-            />
+            {/* line3 is empty in Arabic (2-line poem vs English 3-line) — don't
+                render an empty flex item that would add a full line-height of
+                blank space below the second Arabic line. */}
+            {t("line3") && (
+              <RevealText
+                as="span"
+                text={t("line3")}
+                staggerChildren={0.08}
+                delay={0.2}
+              />
+            )}
           </h1>
 
           {/* Subheading — DESKTOP ONLY (hidden on mobile) */}

@@ -199,6 +199,16 @@ html[lang="ar"] .word-mask {
   margin-block-start: -0.35em;
 }
 
+/* Hero h1: each RevealText line is a separate flex item in a flex-col, so
+   line-height controls the HEIGHT of each item, not just inter-line spacing.
+   The global 1.6 value (needed for OurCraft/Heritage where text wraps) gives
+   ~36px of air between flex items at Arabic font sizes vs English's ~6px.
+   Specificity (0,2,1) beats the generic html[lang="ar"] h1 rule (0,1,2), and
+   the !important matches the global rule's weight — higher specificity wins. */
+html[lang="ar"] .hero-h1 {
+  line-height: 1.15 !important;
+}
+
 /* ============================================================
    Contact page — animated gold underline on field focus
    Pure CSS: scaleX 0→1 from centre. No JS needed.
