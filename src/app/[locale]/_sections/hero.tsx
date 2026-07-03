@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { motion } from "motion/react";
 import { Link } from "@/i18n/navigation";
 import { RevealText, RevealImage, Parallax } from "@/components/motion";
@@ -28,6 +28,8 @@ import type { Media } from "@/lib/site-content";
  */
 export function Hero({ media }: { media: Media }) {
   const t = useTranslations("Home.hero");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   const reduced = useReducedMotion();
   // Desktop-only glass. Never renders below 768px (no GPU cost on phones).
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -122,11 +124,13 @@ export function Hero({ media }: { media: Media }) {
           {/* Stacked headline */}
           <h1
             className={cn(
-              "flex flex-col items-center uppercase md:items-start",
-              "font-[family-name:var(--font-display)] font-semibold",
-              "text-[clamp(2.5rem,4.6vw,4.5rem)] leading-[1.0] tracking-[0.02em] text-ink md:!text-porcelain",
-              // Arabic: don't track or upper-case
-              "rtl:tracking-normal rtl:font-normal rtl:normal-case",
+              "flex flex-col items-center md:items-start",
+              isArabic
+                ? // Amiri — calligraphic Arabic display. Normal weight (only 400 loaded).
+                  // Slightly smaller clamp: the 2 Arabic lines are longer than the 3 EN lines.
+                  "font-[family-name:var(--font-arabic-display)] font-normal normal-case tracking-normal text-[clamp(2rem,3.8vw,3.75rem)] leading-[1.2]"
+                : "font-[family-name:var(--font-display)] font-semibold uppercase text-[clamp(2.5rem,4.6vw,4.5rem)] leading-[1.0] tracking-[0.02em]",
+              "text-ink md:!text-porcelain",
             )}
           >
             <RevealText as="span" text={t("line1")} staggerChildren={0.08} />
