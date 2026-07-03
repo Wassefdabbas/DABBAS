@@ -49,6 +49,9 @@ export type SiteContent = {
   aboutBreak: MediaImage | null;
   /** Phone / email / Instagram. Empty strings mean "use the code defaults". */
   contact: ContactInfo;
+  /** Up to 4 veil slugs shown in the Featured Veils grid on the homepage.
+   *  Empty array → fall back to the first 4 veils by DB order. */
+  featuredSlugs: string[];
 };
 
 const defaults: SiteContent = {
@@ -62,6 +65,7 @@ const defaults: SiteContent = {
     whatsappDisplay: "",
     instagram: "",
   },
+  featuredSlugs: [],
 };
 
 /* ------------------------------------------------------------- internals -- */
@@ -137,6 +141,7 @@ export async function getSiteContent(): Promise<SiteContent> {
       ...content,
       hero: heroOverride ?? content.hero ?? null,
       contact: { ...defaults.contact, ...(content.contact ?? {}) },
+      featuredSlugs: content.featuredSlugs ?? [],
     } as SiteContent;
   } catch (e) {
     console.error("Site content read failed, using defaults:", e);

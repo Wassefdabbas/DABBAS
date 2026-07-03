@@ -389,9 +389,16 @@ export async function getVeil(slug: string): Promise<Veil | undefined> {
   return all.find((v) => v.slug === slug);
 }
 
-export async function getFeaturedVeils(n = 6): Promise<Veil[]> {
+export async function getFeaturedVeils(slugs?: string[]): Promise<Veil[]> {
   const all = await getVeils();
-  return all.slice(0, n);
+  if (slugs && slugs.length > 0) {
+    const bySlug = new Map(all.map((v) => [v.slug, v]));
+    return slugs
+      .map((s) => bySlug.get(s))
+      .filter((v): v is Veil => v !== undefined)
+      .slice(0, 4);
+  }
+  return all.slice(0, 4);
 }
 
 export async function getCompleteYourLook(slug: string): Promise<Veil[]> {

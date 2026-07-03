@@ -14,7 +14,13 @@ import { cn } from "@/lib/cn";
 
 type HeroMode = "image" | "video";
 
-export function SiteForm({ initial }: { initial: SiteContent }) {
+export function SiteForm({
+  initial,
+  veilOptions,
+}: {
+  initial: SiteContent;
+  veilOptions: { slug: string; name: string }[];
+}) {
   const [content, setContent] = useState<SiteContent>(initial);
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
@@ -144,6 +150,46 @@ export function SiteForm({ initial }: { initial: SiteContent }) {
         onChange={(img) => onImageSlot("aboutBreak")(img)}
         onRemove={clearImageSlot("aboutBreak")}
       />
+
+      {/* ── Featured veils ─────────────────────────────────── */}
+      <section>
+        <h2 className="text-2xl text-ink">Featured veils</h2>
+        <p className="mt-1 mb-5 text-sm text-muted">
+          Pick up to 4 veils to show in the homepage grid. Slots left on
+          "— none —" are skipped; if all are empty the first 4 veils are
+          shown automatically.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {([0, 1, 2, 3] as const).map((i) => (
+            <label key={i} className="block">
+              <span className="small-caps mb-1 block !text-muted">
+                Slot {i + 1}
+              </span>
+              <select
+                value={(content.featuredSlugs ?? [])[i] ?? ""}
+                onChange={(e) => {
+                  // Keep all 4 slots as positional entries, then strip empties
+                  // only when saving (the consumer only cares about non-empty).
+                  const slugs: string[] = Array.from(
+                    { length: 4 },
+                    (_, j) => (content.featuredSlugs ?? [])[j] ?? "",
+                  );
+                  slugs[i] = e.target.value;
+                  set("featuredSlugs", slugs.filter(Boolean));
+                }}
+                className="w-full border border-ink/15 bg-porcelain px-3 py-2 text-ink focus:border-gold focus:outline-none"
+              >
+                <option value="">— none —</option>
+                {veilOptions.map((v) => (
+                  <option key={v.slug} value={v.slug}>
+                    {v.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ))}
+        </div>
+      </section>
 
       {/* ── Contact ────────────────────────────────────────── */}
       <section>

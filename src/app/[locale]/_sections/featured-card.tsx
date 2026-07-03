@@ -51,12 +51,6 @@ export function FeaturedCard({
         )}
       </div>
 
-      <div className="mt-4 flex flex-col items-center gap-1 text-center">
-        <h3 className="font-[family-name:var(--font-display)] text-xl text-ink sm:text-2xl">
-          {name}
-        </h3>
-        <p className="small-caps">{lineLabel}</p>
-      </div>
     </Link>
   );
 }
