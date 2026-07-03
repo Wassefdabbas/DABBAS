@@ -80,10 +80,9 @@
     "stats": {
       "headline": "Crafted in Damascus. Worn by the World.",
       "para1": "For over sixty years, the DABBAS atelier has worked in silence — needle by needle, veil by veil. What began in Damascus as a family devotion to bridal craft has dressed brides across the world, each one carrying a piece of our hands on the most important day of her life.",
-      "para2": "Every veil leaves our atelier entirely by hand. No shortcuts. No machines. Only patience, thread, and a deep respect for the moment it will accompany.",
       "para1Short": "Founded in Damascus in 1966. Three generations of handmade bridal veils, now carried to the world.",
       "items": {
-        "years": { "value": "60+ Years", "label": "Of Bridal Mastery" },
+        "years": { "value": "+60 Years", "label": "Of Bridal Mastery" },
         "brides": { "value": "10,000+ Brides", "label": "Dressed With Care" },
         "handmade": { "value": "100% Handmade", "label": "Every Single Stitch" }
       }
