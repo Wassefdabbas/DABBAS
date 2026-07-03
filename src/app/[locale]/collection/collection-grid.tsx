@@ -147,7 +147,7 @@ export function CollectionGrid({
       ) : (
         <motion.div
           layout={!reduced}
-          className="grid grid-cols-3 gap-[2px]"
+          className="grid grid-cols-2 gap-[2px] sm:grid-cols-3"
         >
           <AnimatePresence mode="popLayout">
             {visible.map((veil) => (
@@ -177,7 +177,7 @@ export function CollectionGrid({
                     >
                       <BrandImage
                         image={veil.cover}
-                        sizes="(min-width: 640px) 33vw, 33vw"
+                        sizes="(min-width: 640px) 33vw, 50vw"
                       />
                     </div>
                     {/* Second image — fades in on hover */}
@@ -185,7 +185,7 @@ export function CollectionGrid({
                       <div className="absolute inset-0 opacity-0 transition-opacity duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-100">
                         <BrandImage
                           image={veil.hover}
-                          sizes="(min-width: 640px) 33vw, 33vw"
+                          sizes="(min-width: 640px) 33vw, 50vw"
                         />
                       </div>
                     )}
