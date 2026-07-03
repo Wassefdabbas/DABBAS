@@ -83,7 +83,7 @@
       "para1Short": "Founded in Damascus in 1966. Three generations of handmade bridal veils, now carried to the world.",
       "items": {
         "years": { "value": "+60 Years", "label": "Of Bridal Mastery" },
-        "brides": { "value": "10,000+ Brides", "label": "Dressed With Care" },
+        "brides": { "value": "+10,000 Brides", "label": "Dressed With Care" },
         "handmade": { "value": "100% Handmade", "label": "Every Single Stitch" }
       }
     },
