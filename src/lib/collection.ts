@@ -10,74 +10,27 @@
  */
 
 import type { BrandImage } from "./images";
-import type { Locale } from "@/i18n/routing";
 import { getDb } from "./mongo";
 import { filterByCategory } from "./category-filter";
 
 /* ---------------------------------------------------------------- types -- */
 
-export type Localized = { en: string; ar: string };
-
-export type VeilDetail = {
-  title: Localized;
-  body: Localized;
-};
-
 /**
- * Structured, single-line spec fields shown on the detail page as a quiet
- * definition list. All optional — only the ones the admin fills in render.
- * Ordered here the way they appear on the page.
+ * Pure types + the `SPEC_KEYS` constant + `pickL` live in the client-safe
+ * `collection-shared.ts` (no `mongodb` import). Re-exported here so existing
+ * server-side `@/lib/collection` imports keep working; `"use client"` files
+ * must import them from `@/lib/collection-shared` instead.
  */
-export type VeilSpecs = {
-  material?: Localized;
-  lace?: Localized;
-  decoration?: Localized;
-  silhouette?: Localized;
-  color?: Localized;
-  designer?: Localized;
-};
+export type {
+  Localized,
+  VeilDetail,
+  VeilSpecs,
+  SpecKey,
+  Veil,
+} from "./collection-shared";
+export { SPEC_KEYS, pickL } from "./collection-shared";
 
-/** The spec keys in display order — the single source of truth for both the
- *  admin form and the detail page. */
-export const SPEC_KEYS = [
-  "material",
-  "lace",
-  "decoration",
-  "silhouette",
-  "color",
-  "designer",
-] as const;
-export type SpecKey = (typeof SPEC_KEYS)[number];
-
-export type Veil = {
-  slug: string;
-  name: Localized;
-  lineLabel: Localized;
-  cover: BrandImage;
-  gallery: BrandImage[];
-  /** Short description shown on the detail page. */
-  description: Localized;
-  /** Structured single-line specs (material, lace, …) — optional. */
-  specs?: VeilSpecs | null;
-  details: VeilDetail[];
-  /** Slugs of other veils that complete a bridal look. */
-  completeYourLook: string[];
-  /** Slugs of stylistically similar veils. */
-  youMayAlsoLike: string[];
-  /**
-   * Optional price — bilingual so the atelier can write e.g.
-   *   { en: "From $1,200", ar: "ابتداءً من ١٢٠٠ دولار" }
-   * Set to null/omit to hide pricing on the detail page.
-   */
-  price?: Localized | null;
-  /** Optional reference to a Category by slug. */
-  categorySlug?: string | null;
-};
-
-/** Read a localized string for the active locale, with EN fallback. */
-export function pickL(value: Localized, locale: Locale): string {
-  return value[locale] ?? value.en;
-}
+import type { Veil } from "./collection-shared";
 
 const COLLECTION_NAME = "veils";
 

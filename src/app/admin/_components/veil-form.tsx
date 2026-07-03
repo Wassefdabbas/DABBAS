@@ -8,8 +8,10 @@ import {
   updateVeilAction,
 } from "../veils/actions";
 import type { BrandImage as BrandImageData } from "@/lib/images";
-import type { Veil, Localized, VeilDetail, SpecKey } from "@/lib/collection";
-import { SPEC_KEYS } from "@/lib/collection";
+// Client-safe: types + SPEC_KEYS from collection-shared, NOT collection.ts
+// (which imports the mongodb driver and would break the client bundle).
+import type { Veil, Localized, VeilDetail, SpecKey } from "@/lib/collection-shared";
+import { SPEC_KEYS } from "@/lib/collection-shared";
 import type { Category } from "@/lib/categories";
 import { cn } from "@/lib/cn";
 
