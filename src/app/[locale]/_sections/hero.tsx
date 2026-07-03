@@ -123,6 +123,7 @@ export function Hero({ media }: { media: Media }) {
         <div>
           {/* Stacked headline */}
           <h1
+            dir={isArabic ? "rtl" : undefined}
             className={cn(
               "flex flex-col items-center md:items-start",
               isArabic

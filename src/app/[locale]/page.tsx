@@ -2,7 +2,6 @@ import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { getSiteContent } from "@/lib/site-content";
 import { Hero } from "./_sections/hero";
-import { IntroStatement } from "./_sections/intro-statement";
 import { CollectionSection } from "./_sections/collection-section";
 import { OurCraft } from "./_sections/our-craft";
 import { FeaturedVeils } from "./_sections/featured-veils";
@@ -27,7 +26,6 @@ export default async function Home({
   return (
     <main>
       <Hero media={site.hero} />
-      <IntroStatement />
       <CollectionSection />
       <OurCraft media={site.craft} />
       <FeaturedVeils />
