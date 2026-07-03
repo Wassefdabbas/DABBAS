@@ -93,7 +93,7 @@ export function Header() {
           aria-hidden
           className={cn(
             "absolute inset-0 bg-porcelain/85 backdrop-blur-[12px]",
-            
+
             SCROLL_TRANSITION,
             light ? "opacity-0" : "opacity-100",
           )}
