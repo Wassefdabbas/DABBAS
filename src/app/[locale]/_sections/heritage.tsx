@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { motion, useTransform, type MotionValue } from "motion/react";
 import { Link } from "@/i18n/navigation";
 import { ScrollScene } from "@/components/motion";
@@ -16,6 +16,7 @@ function HeritageScene({
   media: MediaImage | null;
 }) {
   const t = useTranslations("Home.heritage");
+  const locale = useLocale();
 
   // The image drifts slowly upward inside its window and settles from a
   // slight zoom — an heirloom photograph being set down, not a camera move.
@@ -53,7 +54,7 @@ function HeritageScene({
         </div>
 
         {/* Copy */}
-        <div>
+        <div dir={locale === "ar" ? "rtl" : undefined}>
           <motion.p style={{ opacity: eyebrowOpacity }} className="small-caps mb-5">
             {t("eyebrow")}
           </motion.p>

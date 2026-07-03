@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { motion, useTransform, type MotionValue } from "motion/react";
 import { ScrollScene } from "@/components/motion";
 import { BrandImage } from "@/components/brand-image";
@@ -32,6 +32,7 @@ function CraftScene({
   const bodyY = useTransform(progress, [0.45, 0.8], [24, 0]);
 
   const t = useTranslations("Home.craft");
+  const locale = useLocale();
 
   return (
     <div className="relative h-screen w-full">
@@ -68,7 +69,7 @@ function CraftScene({
         />
       </motion.div>
 
-      <div className="relative z-10 flex h-full flex-col items-start justify-end px-6 pb-24 sm:px-12 sm:pb-32 lg:px-24">
+      <div dir={locale === "ar" ? "rtl" : undefined} className="relative z-10 flex h-full flex-col items-start justify-end px-6 pb-24 sm:px-12 sm:pb-32 lg:px-24">
         <motion.p
           style={{ opacity: eyebrowOpacity }}
           className="small-caps !text-porcelain/85"
