@@ -3,13 +3,11 @@ import { Stagger } from "@/components/motion";
 import { CollectionCard, type CollectionCardData } from "./collection-card";
 import { CollectionCarousel } from "./collection-carousel";
 
-type CardKey = "signature" | "romance" | "cathedral" | "bespoke";
+type CardKey = "signature" | "romance";
 
 const CARDS: Array<{ key: CardKey; name: string; slug: string }> = [
   { key: "signature", name: "SIGNATURE", slug: "signature" },
   { key: "romance", name: "ROMANCE", slug: "romance" },
-  { key: "cathedral", name: "CATHEDRAL", slug: "cathedral" },
-  { key: "bespoke", name: "BESPOKE", slug: "bespoke" },
 ];
 
 /**
@@ -28,8 +26,8 @@ export async function CollectionSection() {
     src: `/collection/${c.slug}.png`,
   }));
 
-  // Desktop sizes: each card ~48vw. Carousel passes its own.
-  const gridSizes = "(min-width: 768px) 48vw, 85vw";
+  // Desktop sizes: 2 large cards side-by-side, nearly half-viewport each.
+  const gridSizes = "(min-width: 768px) 50vw, 90vw";
 
   return (
     <section aria-label="The Collection" className="bg-porcelain pb-16 pt-12 sm:pb-20 sm:pt-16">
@@ -40,9 +38,9 @@ export async function CollectionSection() {
         </h2>
       </div>
 
-      {/* Desktop: 2×2 grid with staggered reveal */}
+      {/* Desktop: 2-column single row, larger cards, tighter gap */}
       <Stagger
-        className="hidden grid-cols-2 gap-6 px-6 sm:gap-8 sm:px-12 md:grid lg:px-24"
+        className="hidden grid-cols-2 gap-3 px-6 sm:gap-4 sm:px-12 md:grid lg:px-24"
         staggerChildren={0.12}
       >
         {cards.map((card) => (
