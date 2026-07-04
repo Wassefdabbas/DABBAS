@@ -39,12 +39,6 @@ export async function AtelierStats() {
           className="mt-10 hidden text-base leading-relaxed text-graphite md:block"
           staggerChildren={0.02}
         />
-        <RevealText
-          as="p"
-          text={t("para2")}
-          className="mt-6 hidden text-base leading-relaxed text-graphite md:block"
-          staggerChildren={0.02}
-        />
       </div>
 
       {/* Stats row — stacked & generously spaced on mobile, 3-up from md */}
