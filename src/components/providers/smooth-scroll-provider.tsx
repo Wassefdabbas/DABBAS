@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -22,6 +23,19 @@ export function SmoothScrollProvider({
 }) {
   const reducedMotion = useReducedMotion();
   const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
+
+  // Jump to top on every page navigation — Lenis owns the scroll position so
+  // Next.js's built-in scroll restoration doesn't fire reliably.
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+    // Give ScrollTrigger a beat to re-measure the new page's layout.
+    ScrollTrigger.refresh();
+  }, [pathname]);
 
   useEffect(() => {
     if (reducedMotion) return;
