@@ -12,7 +12,7 @@ export async function AppointmentCTA() {
   return (
     <section
       aria-label="Book an appointment"
-      className="bg-porcelain px-6 py-40 sm:px-12 sm:py-56"
+      className="bg-porcelain px-6 pt-20 pb-40 sm:px-12 sm:pt-24 sm:pb-56"
     >
       <div className="mx-auto max-w-3xl text-center">
         <div className="hairline mx-auto mb-16 w-24" />

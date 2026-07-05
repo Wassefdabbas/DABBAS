@@ -18,7 +18,7 @@ export async function AtelierStats() {
     <section
       aria-label="The atelier"
       dir={locale === "ar" ? "rtl" : undefined}
-      className="bg-porcelain px-6 py-28 sm:px-12 sm:py-36 lg:px-24"
+      className="bg-porcelain px-6 pt-28 pb-16 sm:px-12 sm:pt-36 sm:pb-20 lg:px-24"
     >
       <div className="mx-auto max-w-3xl text-center">
         <div className="hairline mx-auto mb-12 w-16" />
