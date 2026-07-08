@@ -7,6 +7,7 @@ import {
   createVeil,
   updateVeil,
   deleteVeil,
+  moveVeil,
   type Veil,
 } from "@/lib/collection";
 
@@ -54,5 +55,12 @@ export async function updateVeilAction(
 export async function deleteVeilAction(slug: string) {
   await gate();
   await deleteVeil(slug);
+  revalidateAll();
+}
+
+/** Move a veil one step up/down in the collection display order. */
+export async function moveVeilAction(slug: string, direction: "up" | "down") {
+  await gate();
+  await moveVeil(slug, direction);
   revalidateAll();
 }

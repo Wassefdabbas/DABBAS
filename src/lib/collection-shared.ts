@@ -73,6 +73,12 @@ export type Veil = {
   price?: Localized | null;
   /** Optional reference to a Category by slug. */
   categorySlug?: string | null;
+  /**
+   * Manual display position set from the admin "Reorder" arrows. Lower comes
+   * first everywhere `getVeils()` is read (collection grid, featured fallback).
+   * Veils without one sort after the ordered ones, in insertion order.
+   */
+  order?: number | null;
 };
 
 /** Read a localized string for the active locale, with EN fallback. */

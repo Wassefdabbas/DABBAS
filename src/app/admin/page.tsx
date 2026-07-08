@@ -5,6 +5,7 @@ import { getVeils } from "@/lib/collection";
 import { BrandImage } from "@/components/brand-image";
 import { AdminShell } from "./_components/admin-shell";
 import { DeleteButton } from "./_components/delete-button";
+import { ReorderButtons } from "./_components/reorder-buttons";
 
 export default async function AdminDashboard() {
   await requireAdmin();
@@ -38,16 +39,36 @@ export default async function AdminDashboard() {
               Showing <span className="text-ink">{veils.length}</span> veils
               {mongo ? " from Mongo" : " from the hardcoded sample"}.
             </p>
+            {mongo && (
+              <p className="mt-1 text-muted">
+                Use the arrows to reorder — the list order here is the display
+                order on the collection page.
+              </p>
+            )}
           </div>
         </div>
 
         {/* List */}
         <ul className="mt-8 flex flex-col gap-3">
-          {veils.map((veil) => (
+          {veils.map((veil, index) => (
             <li
               key={veil.slug}
               className="flex items-center gap-4 rounded-lg border border-mist bg-porcelain p-3 transition-colors hover:border-ink/20"
             >
+              {/* Display order — position in the public collection grid */}
+              {mongo && (
+                <div className="flex shrink-0 items-center gap-3">
+                  <span className="w-6 text-center text-sm tabular-nums text-muted">
+                    {index + 1}
+                  </span>
+                  <ReorderButtons
+                    slug={veil.slug}
+                    isFirst={index === 0}
+                    isLast={index === veils.length - 1}
+                  />
+                </div>
+              )}
+
               {/* Cover thumbnail */}
               <div className="h-16 w-14 shrink-0 overflow-hidden rounded-md bg-mist">
                 {veil.cover && <BrandImage image={veil.cover} sizes="56px" />}

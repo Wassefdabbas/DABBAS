@@ -376,8 +376,19 @@ export function getSampleVeils(): Veil[] {
   return veils;
 }
 
+/**
+ * Manual-order comparator. Veils without an `order` sort after ordered ones;
+ * `Array.prototype.sort` is stable, so they keep their insertion order.
+ */
+function byOrder(a: Veil, b: Veil): number {
+  return (
+    (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER)
+  );
+}
+
 export async function getVeils(): Promise<Veil[]> {
-  return (await readFromMongo()) ?? veils;
+  const all = (await readFromMongo()) ?? veils;
+  return [...all].sort(byOrder);
 }
 
 export async function getVeilsByCategory(categorySlug: string): Promise<Veil[]> {
@@ -448,14 +459,52 @@ export async function createVeil(veil: Veil): Promise<void> {
 export async function updateVeil(slug: string, veil: Veil): Promise<void> {
   const db = await requireDb();
   const col = veilsCol(db);
+  // The admin form payload doesn't carry `order` — keep the stored position
+  // so editing a veil never resets its place in the collection grid.
+  const existing = await col.findOne(
+    { _id: slug },
+    { projection: { order: 1 } },
+  );
+  const next: Veil = { ...veil, order: veil.order ?? existing?.order ?? null };
   // Slug change → delete old + insert new (so _id stays equal to slug)
   if (slug !== veil.slug) {
     await col.deleteOne({ _id: slug });
-    await col.insertOne({ _id: veil.slug, ...veil });
+    await col.insertOne({ _id: veil.slug, ...next });
     return;
   }
   // replaceOne strips _id from the replacement type — pass plain Veil
-  await col.replaceOne({ _id: slug }, veil);
+  await col.replaceOne({ _id: slug }, next);
+}
+
+/**
+ * Move a veil one step up/down in the manual order and persist a normalized
+ * 0..n-1 sequence for every veil, so all documents end up with an explicit
+ * `order` even if they never had one.
+ */
+export async function moveVeil(
+  slug: string,
+  direction: "up" | "down",
+): Promise<void> {
+  const db = await requireDb();
+  const col = veilsCol(db);
+  const docs = await col
+    .find({})
+    .project<{ _id: string; order?: number | null }>({ _id: 1, order: 1 })
+    .toArray();
+  docs.sort(
+    (a, b) =>
+      (a.order ?? Number.MAX_SAFE_INTEGER) -
+      (b.order ?? Number.MAX_SAFE_INTEGER),
+  );
+  const from = docs.findIndex((d) => d._id === slug);
+  const to = direction === "up" ? from - 1 : from + 1;
+  if (from === -1 || to < 0 || to >= docs.length) return;
+  [docs[from], docs[to]] = [docs[to], docs[from]];
+  await col.bulkWrite(
+    docs.map((d, i) => ({
+      updateOne: { filter: { _id: d._id }, update: { $set: { order: i } } },
+    })),
+  );
 }
 
 export async function deleteVeil(slug: string): Promise<void> {

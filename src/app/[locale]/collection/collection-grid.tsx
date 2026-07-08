@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -22,6 +22,9 @@ export type GridItem = {
 };
 
 export type FilterCategory = { slug: string; name: string };
+
+/** Veils per page — 5 full rows of the 3-column grid. */
+const PAGE_SIZE = 15;
 
 /**
  * Collection grid with a luxury, click-to-open filter.
@@ -45,11 +48,36 @@ export function CollectionGrid({
   const reduced = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null); // null = all
+  const [page, setPage] = useState(1);
+  const gridTopRef = useRef<HTMLDivElement>(null);
 
-  const visible = useMemo(
+  const filtered = useMemo(
     () => (active ? filterByCategory(items, active) : items),
     [items, active],
   );
+
+  // Changing the filter always lands back on page 1.
+  const selectCategory = (slug: string | null) => {
+    setActive(slug);
+    setPage(1);
+  };
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const current = Math.min(page, pageCount);
+  const visible = useMemo(
+    () => filtered.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE),
+    [filtered, current],
+  );
+
+  const goToPage = (next: number) => {
+    setPage(next);
+    // Bring the top of the grid back into view; small offset clears the nav.
+    const el = gridTopRef.current;
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 120;
+      window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+    }
+  };
 
   const activeName =
     active === null
@@ -92,7 +120,7 @@ export function CollectionGrid({
           {active !== null && (
             <button
               type="button"
-              onClick={() => setActive(null)}
+              onClick={() => selectCategory(null)}
               className="text-xs uppercase tracking-[0.16em] text-muted underline-offset-4 transition-colors hover:text-ink"
             >
               {t("all")}
@@ -123,14 +151,14 @@ export function CollectionGrid({
                 <Chip
                   label={t("all")}
                   active={active === null}
-                  onClick={() => setActive(null)}
+                  onClick={() => selectCategory(null)}
                 />
                 {used.map((c) => (
                   <Chip
                     key={c.slug}
                     label={c.name}
                     active={active === c.slug}
-                    onClick={() => setActive(c.slug)}
+                    onClick={() => selectCategory(c.slug)}
                   />
                 ))}
               </div>
@@ -140,6 +168,8 @@ export function CollectionGrid({
       )}
 
       {/* ── Grid ───────────────────────────────────────────── */}
+      {/* Scroll anchor — page changes bring this back into view */}
+      <div ref={gridTopRef} aria-hidden />
       {visible.length === 0 ? (
         <p className="mx-auto max-w-md py-20 text-center text-graphite">
           {emptyText ?? t("empty")}
@@ -196,7 +226,80 @@ export function CollectionGrid({
           </AnimatePresence>
         </motion.div>
       )}
+
+      {/* ── Pagination ─────────────────────────────────────── */}
+      {pageCount > 1 && (
+        <nav
+          aria-label={t("pagination")}
+          className="mt-16 flex items-center justify-center gap-2"
+        >
+          <PageArrow
+            direction="prev"
+            label={t("pagePrev")}
+            disabled={current === 1}
+            onClick={() => goToPage(current - 1)}
+          />
+          {Array.from({ length: pageCount }, (_, i) => i + 1).map((p) => (
+            <button
+              key={p}
+              type="button"
+              onClick={() => goToPage(p)}
+              aria-current={p === current ? "page" : undefined}
+              aria-label={t("pageN", { page: p })}
+              className={cn(
+                "flex h-10 w-10 items-center justify-center rounded-full border text-sm tabular-nums transition-colors duration-300",
+                p === current
+                  ? "border-gold bg-ink text-porcelain"
+                  : "border-transparent text-graphite hover:border-ink/20 hover:text-ink",
+              )}
+            >
+              {p}
+            </button>
+          ))}
+          <PageArrow
+            direction="next"
+            label={t("pageNext")}
+            disabled={current === pageCount}
+            onClick={() => goToPage(current + 1)}
+          />
+        </nav>
+      )}
     </>
+  );
+}
+
+function PageArrow({
+  direction,
+  label,
+  disabled,
+  onClick,
+}: {
+  direction: "prev" | "next";
+  label: string;
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors duration-300 hover:border-gold hover:text-gold-deep disabled:pointer-events-none disabled:opacity-25"
+    >
+      {/* Logical prev/next — flips under RTL so "next" always points forward */}
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={cn("h-4 w-4 rtl:rotate-180", direction === "prev" && "rotate-180 rtl:rotate-0")}
+      >
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
+    </button>
   );
 }
 

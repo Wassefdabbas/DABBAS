@@ -204,7 +204,11 @@
       "filterBy": "Refine by category",
       "all": "All veils",
       "close": "Close",
-      "empty": "No veils in this category yet."
+      "empty": "No veils in this category yet.",
+      "pagination": "Collection pages",
+      "pagePrev": "Previous page",
+      "pageNext": "Next page",
+      "pageN": "Page {page}"
     },
     "category": {
       "eyebrow": "The Collection",
